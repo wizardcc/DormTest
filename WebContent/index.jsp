@@ -12,7 +12,7 @@
 		//判断用户是否输入学号和密码
 		var stuCode = document.getElementById("stuCode").value;
 		var password = document.getElementById("password").value;
-		if (userName == null || userName == "") {
+		if (stuCode == null || stuCode == "") {
 			document.getElementById("error").innerHTML = "学号不能为空";
 			return false;
 		}
