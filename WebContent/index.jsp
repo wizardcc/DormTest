@@ -9,11 +9,11 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/js/jQuery.js"></script>
 <script type="text/javascript">
 	function checkForm() {
-		//判断用户是否输入登录名和密码
-		var userName = document.getElementById("userName").value;
+		//判断用户是否输入学号和密码
+		var stuCode = document.getElementById("stuCode").value;
 		var password = document.getElementById("password").value;
 		if (userName == null || userName == "") {
-			document.getElementById("error").innerHTML = "用户名不能为空";
+			document.getElementById("error").innerHTML = "学号不能为空";
 			return false;
 		}
 		if (password == null || password == "") {
@@ -81,11 +81,11 @@
         <h2 class="form-signin-heading"><font color="gray">宿舍管理系统</font></h2>
         <input type="hidden"  name="action"  value="submit">
         <!-- 如果想让控件像块级元素一样占满容器，就可以为它添加 .input-block-level 类。这样，控件不仅可以占满容器，还可以根据浏览器窗口自动调整尺寸 -->
-        <input id="userName" name="name" value="" type="text" class="input-block-level" placeholder="用户名...">
+        <input id="stuCode" name="stuCode" value="" type="text" class="input-block-level" placeholder="学号...">
         <input id="password" name="password" value="" type="password" class="input-block-level" placeholder="密码..." >
         <label class="checkbox">
           <input id="remember" name="remember" type="checkbox" value="remember-me" >记住我 &nbsp;&nbsp;&nbsp;&nbsp; 
-          <font id="error" color="red"></font>  
+          <font id="error" color="red">${error}</font>  
         </label>
         <div style="text-align: center;">
         <!-- 按钮类型为submit：点击按钮会将表单的内容提交到action属性值login的请求处理类中 -->>

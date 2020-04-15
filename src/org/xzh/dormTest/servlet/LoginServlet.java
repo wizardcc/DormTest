@@ -33,14 +33,25 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("=======登录=======");
 		//根据输入框标签的name属性值去获取对应用户输入的值（登录名和密码）
-		String name = request.getParameter("name");
+		String stuCode = request.getParameter("stuCode");
 		String password = request.getParameter("password");
 		//打印测试
-		System.out.println("name:"+name+"password"+password);
+		System.out.println("stuCode:"+stuCode+"password"+password);
 		
 		UserService userService = new UserServiceImpl();
 		//去查询用户输入的登录名和密码是否正确
-		User user = userService.findByNamAndPass(name,password);
+		User user = userService.findByStuCodeAndPass(stuCode,password);
+		System.out.println("user"+user);
+		
+		if(user == null) {
+			//用户输入的学号或密码错误，跳转到登录页面，并给予提示信息
+			request.setAttribute("error", "您输入的学号或密码错误！");
+			//请求链未断开的跳转，可以在下一个servlet或jsp中，获取保存在request中的数据
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		}else {
+			//用户输入的学号和密码正确，登陆成功。跳转到主页面
+			System.out.println("======跳转到主页面======");
+		}
 	}
 
 }

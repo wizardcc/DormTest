@@ -11,17 +11,19 @@ import org.xzh.dormTest.util.ConnectionFactory;
 public class UserDaoImpl implements UserDao {
 
 	@Override
-	public User findByNamAndPass(String name, String password) {
+	public User findByStuCodeAndPass(String stuCode, String password) {
 		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
 		Connection connection = ConnectionFactory.getConnection();
 		
 		try {
 			//② 准备SQL语句
-			String sql = "select * from tb_user where name = ? and password = ?";
+			String sql = "select * from tb_user where stu_code = ? and password = ?";
 			
 			//③ 获取运输载体
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			
+			//索引从1开始
+			preparedStatement.setString(1, stuCode);
+			preparedStatement.setString(2, password);
 			//④ 执行sql语句,⑤ 获取执行后的结果
 			//查询的结果封装在ResultSet中，此时表头也查出来了，指针在表头位置，如果指针里面有数据才封装
 			ResultSet rs = preparedStatement.executeQuery();
