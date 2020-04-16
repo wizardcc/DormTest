@@ -50,7 +50,10 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}else {
 			//用户输入的学号和密码正确，登陆成功。跳转到主页面
+			//保存在session中的数据，默认是30min内有效，即浏览器和服务器无交互。保存在session中的数据，在整个项目中都可以获取得到（无论请求链是否断开）
+			request.getSession().setAttribute("session_user", user);
 			System.out.println("======跳转到主页面======");
+			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}
 	}
 
