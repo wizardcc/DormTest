@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="zh">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -77,14 +78,32 @@
 		<div class="row-fluid">
 			<div class="span2 bs-docs-sidebar" >
 				<ul class="nav nav-list bs-docs-sidenav">
-						<li><a href="blank"><i class="icon-chevron-right"></i>首页</a></li>
-						<li id="dormManager"><a href="dormManager.action?action=list"><i class="icon-chevron-right"></i>宿舍管理员管理</a></li>
-						<li id="student"><a href="student.action?action=list"><i class="icon-chevron-right"></i>学生管理</a></li>
-						<li id="dormBuild"><a href="dormBuild.action?action=list"><i class="icon-chevron-right"></i>宿舍楼管理</a></li>
-						<li id="record"><a href="record.action?action=list"><i class="icon-chevron-right"></i>缺勤记录</a></li>
-						<li id="password"><a href="password.action?action=preChange"><i class="icon-chevron-right"></i>修改密码</a></li>
-						<li id="loginOut"><a href="loginOut.action"><i class="icon-chevron-right"></i>退出系统</a></li>
-					
+					<!-- 超级管理员 -->
+					<c:if test="${session_user.roleId == 0}">
+							<li><a href="blank"><i class="icon-chevron-right"></i>首页</a></li>
+							<li id="dormManager"><a href="dormManager.action?action=list"><i class="icon-chevron-right"></i>宿舍管理员管理</a></li>
+							<li id="student"><a href="student.action?action=list"><i class="icon-chevron-right"></i>学生管理</a></li>
+							<li id="dormBuild"><a href="dormBuild.action?action=list"><i class="icon-chevron-right"></i>宿舍楼管理</a></li>
+							<li id="record"><a href="record.action?action=list"><i class="icon-chevron-right"></i>缺勤记录</a></li>
+							<li id="password"><a href="password.action?action=preChange"><i class="icon-chevron-right"></i>修改密码</a></li>
+							<li id="loginOut"><a href="loginOut.action"><i class="icon-chevron-right"></i>退出系统</a></li>
+					</c:if>
+					<!-- 宿舍管理员 -->
+					<c:if test="${session_user.roleId == 1}">
+							<li><a href="blank"><i class="icon-chevron-right"></i>首页</a></li>
+							<li id="student"><a href="student.action?action=list"><i class="icon-chevron-right"></i>学生管理</a></li>
+							<li id="record"><a href="record.action?action=list"><i class="icon-chevron-right"></i>缺勤记录</a></li>
+							<li id="password"><a href="password.action?action=preChange"><i class="icon-chevron-right"></i>修改密码</a></li>
+							<li id="loginOut"><a href="loginOut.action"><i class="icon-chevron-right"></i>退出系统</a></li>
+					</c:if>
+					<!-- 学生 -->
+					<c:if test="${session_user.roleId == 2}">
+							<li><a href="blank"><i class="icon-chevron-right"></i>首页</a></li>
+							<li id="record"><a href="record.action?action=list"><i class="icon-chevron-right"></i>缺勤记录</a></li>
+							<li id="password"><a href="password.action?action=preChange"><i class="icon-chevron-right"></i>修改密码</a></li>
+							<li id="loginOut"><a href="loginOut.action"><i class="icon-chevron-right"></i>退出系统</a></li>
+					</c:if>
+						
 				</ul>
 			</div>
 					<div class="span10">
