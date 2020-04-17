@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.xzh.dormTest.bean.User;
 import org.xzh.dormTest.service.UserService;
 import org.xzh.dormTest.service.UserServiceImpl;
+import org.xzh.dormTest.util.CookieUtil;
 
 /**
  * Servlet implementation class LoginServlet
@@ -35,8 +36,9 @@ public class LoginServlet extends HttpServlet {
 		//根据输入框标签的name属性值去获取对应用户输入的值（登录名和密码）
 		String stuCode = request.getParameter("stuCode");
 		String password = request.getParameter("password");
+		String remember = request.getParameter("remember");
 		//打印测试
-		System.out.println("stuCode:"+stuCode+"password"+password);
+		System.out.println("stuCode:"+stuCode+"password"+password+"remember"+remember);
 		
 		UserService userService = new UserServiceImpl();
 		//去查询用户输入的登录名和密码是否正确
@@ -52,6 +54,11 @@ public class LoginServlet extends HttpServlet {
 			//用户输入的学号和密码正确，登陆成功。跳转到主页面
 			//保存在session中的数据，默认是30min内有效，即浏览器和服务器无交互。保存在session中的数据，在整个项目中都可以获取得到（无论请求链是否断开）
 			request.getSession().setAttribute("session_user", user);
+			
+			if(remember != null && remember.equals("remember_me")) {
+				//记住密码一周，时间以秒为单位
+				CookieUtil.addCookie("cookie_name_pass",7*24*60*60,request,response,stuCode,password);//名字、时间、响应对象、参数
+			}
 			System.out.println("======跳转到主页面======");
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}
