@@ -38,24 +38,26 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String remember = request.getParameter("remember");
 		//打印测试
-		System.out.println("stuCode:"+stuCode+"password"+password+"remember"+remember);
+		System.out.println("stuCode:"+stuCode+"    password"+password+"    remember"+remember);
 		
 		UserService userService = new UserServiceImpl();
 		//去查询用户输入的登录名和密码是否正确
 		User user = userService.findByStuCodeAndPass(stuCode,password);
-		System.out.println("user"+user);
+		System.out.println("user:"+user);
 		
 		if(user == null) {
 			//用户输入的学号或密码错误，跳转到登录页面，并给予提示信息
 			request.setAttribute("error", "您输入的学号或密码错误！");
 			//请求链未断开的跳转，可以在下一个servlet或jsp中，获取保存在request中的数据
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			request.getRequestDispatcher("index.jsp").forward(request, response);			
 		}else {
 			//用户输入的学号和密码正确，登陆成功。跳转到主页面
 			//保存在session中的数据，默认是30min内有效，即浏览器和服务器无交互。保存在session中的数据，在整个项目中都可以获取得到（无论请求链是否断开）
 			request.getSession().setAttribute("session_user", user);
+			//System.out.println("未记住密码");
 			
-			if(remember != null && remember.equals("remember_me")) {
+			if(remember != null && remember.equals("remember-me")) {
+				//System.out.println("记住密码");
 				//记住密码一周，时间以秒为单位
 				CookieUtil.addCookie("cookie_name_pass",7*24*60*60,request,response,stuCode,password);//名字、时间、响应对象、参数
 			}

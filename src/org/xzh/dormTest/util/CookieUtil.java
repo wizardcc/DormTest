@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtil {
 
-	public static void addCookie(String cookieName, int time, 
-			HttpServletRequest request,HttpServletResponse response, 
-			String stuCode, String password) {
+	public static void addCookie(String cookieName, int time,HttpServletRequest request,HttpServletResponse response, String stuCode, String password) {
+		//测试有没有调用函数
+		//System.out.println("diaoyong");
 		//根据保存学号和密码的cookie的名字获取cookie
 		Cookie cookie = getCookieByName(request,cookieName);
 		//如有该项目保存学号和密码的cookie，则更改cookie的值，如未有则新建cookie
