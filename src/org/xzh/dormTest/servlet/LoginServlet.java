@@ -60,7 +60,11 @@ public class LoginServlet extends HttpServlet {
 				CookieUtil.addCookie("cookie_name_pass",7*24*60*60,request,response,stuCode,password);//名字、时间、响应对象、参数
 			}
 			System.out.println("======跳转到主页面======");
-			request.getRequestDispatcher("main.jsp").forward(request, response);
+			//WEB-INF下面的内容是受保护的，不能在通过地址栏直接访问，也不能通过response.sendRedirect重定向的形势访问
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			System.out.println("getServletContext().getContextPath():"+getServletContext().getContextPath());
+			//response.sendRedirect(getServletContext().getContextPath()+"/WEB-INF/jsp/main.jsp");
+		
 		}
 	}
 
