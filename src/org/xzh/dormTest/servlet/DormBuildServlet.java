@@ -28,8 +28,22 @@ public class DormBuildServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("======dormBuild.action======");
 		
-		request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
-		request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		String action = request.getParameter("action");
+		System.out.println("action:"+action);
+		if(action != null & action.equals("list")) {
+			//查询宿舍楼信息，跳转到宿舍楼列表页
+			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
+			//request方法请求链没有断开，可以在下一个jsp或servlet获取保存在request中的参数
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			
+		}else if(action != null & action.equals("preAdd")) {
+			//表示跳转到宿舍楼添加页面
+			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildAddOrUpdate.jsp");
+			//request方法请求链没有断开，可以在下一个jsp或servlet获取保存在request中的参数
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			
+		}
+		
 	}
 
 }
