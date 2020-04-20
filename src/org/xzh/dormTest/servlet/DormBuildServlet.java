@@ -32,6 +32,7 @@ public class DormBuildServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("======dormBuild.action======");
 		
+		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
 		System.out.println("action:"+action);
 		
@@ -39,8 +40,8 @@ public class DormBuildServlet extends HttpServlet {
 		
 		if(action != null & action.equals("list")) {
 			//查询宿舍楼信息，跳转到宿舍楼列表页
-			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
 			//request方法请求链没有断开，可以在下一个jsp或servlet获取保存在request中的参数
+			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			
 		}else if(action != null & action.equals("preAdd")) {
@@ -57,6 +58,7 @@ public class DormBuildServlet extends HttpServlet {
 			
 			//宿舍楼名字不能重复，从数据库查询，当前用户输入的宿舍楼名字是否已经存在
 			DormBuild dormBuild = dormBuildService.findByName(name);
+			System.out.println("dormBuild:"+dormBuild);
 			
 			if(dormBuild != null) {
 				//表明用户输入的宿舍楼名已存在
@@ -69,7 +71,12 @@ public class DormBuildServlet extends HttpServlet {
 				DormBuild build = new DormBuild();
 				build.setName(name);
 				build.setRemark(remark);
+				build.setDisabled(0);
 				dormBuildService.save(build);
+				//跳转到main.jsp
+				request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
+				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+				
 			}
 		}
 		
