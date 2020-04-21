@@ -1,6 +1,9 @@
 package org.xzh.dormTest.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,6 +44,10 @@ public class DormBuildServlet extends HttpServlet {
 		if(action != null & action.equals("list")) {
 			//查询宿舍楼信息，跳转到宿舍楼列表页
 			//request方法请求链没有断开，可以在下一个jsp或servlet获取保存在request中的参数
+			List<DormBuild> builds = dormBuildService.find();
+			System.out.println("builds:"+builds);
+			
+			request.setAttribute("builds", builds);
 			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			
