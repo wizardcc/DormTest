@@ -56,6 +56,10 @@ public class DormBuildServlet extends HttpServlet {
 				DormBuild build = dormBuildService.findById(Integer.parseInt(id));
 				builds.add(build);
 			}
+			//查询所有的宿舍楼，在select中遍历
+			List<DormBuild>  buildSelects = dormBuildService.find();
+			request.setAttribute("buildSelects", buildSelects);
+			request.setAttribute("id", id);
 
 			System.out.println("builds:"+builds);
 			request.setAttribute("builds", builds);

@@ -36,8 +36,8 @@
 				<span class="data_search">
 					<select id="id" name="id" style="width: 120px;">
 						<!-- C标签循环显示出所有的宿舍楼,显示的是build.name,点击后传递的是build.id -->
-						<c:forEach items="${builds}"  var="build" varStatus="stat">
-							<option value="${build.id}">${build.name}</option>
+						<c:forEach items="${buildSelects}"  var="build" varStatus="stat">
+							<option value="${build.id}" ${id eq build.id ? 'selected' : ""} >${build.name}</option>
 						</c:forEach>
 						
 					</select>
