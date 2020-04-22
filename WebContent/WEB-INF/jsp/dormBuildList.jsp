@@ -35,8 +35,11 @@
 				<button class="btn btn-success" type="button" style="margin-right: 50px;" onclick="javascript:window.location='dormBuild.action?action=preAdd'">添加</button>
 				<span class="data_search">
 					<select id="id" name="id" style="width: 120px;">
-						<option value="">全部宿舍楼</option>
-							<option value=""></option>
+						<!-- C标签循环显示出所有的宿舍楼,显示的是build.name,点击后传递的是build.id -->
+						<c:forEach items="${builds}"  var="build" varStatus="stat">
+							<option value="${build.id}">${build.name}</option>
+						</c:forEach>
+						
 					</select>
 					&nbsp;<button type="submit" class="btn btn-info" onkeydown="if(event.keyCode==13) myForm.submit()">搜索</button>
 				</span>
