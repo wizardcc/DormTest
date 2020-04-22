@@ -12,4 +12,6 @@ public interface DormBuildService {
 
 	List<DormBuild> find();
 
+	DormBuild findById(Integer id);
+
 }

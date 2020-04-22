@@ -12,4 +12,6 @@ public interface DormBuildDao {
 
 	List<DormBuild> find();
 
+	DormBuild findById(Integer id);
+
 }

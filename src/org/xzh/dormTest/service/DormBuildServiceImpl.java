@@ -22,5 +22,9 @@ public class DormBuildServiceImpl implements DormBuildService {
 	public List<DormBuild> find() {
 		return dormBuildDao.find();
 	}
+	@Override
+	public DormBuild findById(Integer id) {
+		return dormBuildDao.findById(id);
+	}
 
 }

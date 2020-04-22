@@ -45,19 +45,20 @@ public class DormBuildServlet extends HttpServlet {
 			//通过request.getParameter("id")方式获取的值都是String类型
 			String id = request.getParameter("id");
 			//条件判断是同页面中的无参查询方法还是带参查询方法
+			List<DormBuild>  builds = new ArrayList<DormBuild>();
 			if(id == null || id.equals("")) {
 				//点击左侧宿舍楼管理，查询所有宿舍楼信息，跳转到宿舍楼列表页
 				//request方法请求链没有断开，可以在下一个jsp或servlet获取保存在request中的参数
-				List<DormBuild> builds = dormBuildService.find();
-				System.out.println("builds:"+builds);
-				request.setAttribute("builds", builds);
+				builds = dormBuildService.find();
 			}else if(id != null && !id.equals("")) {
 				//点击搜索按钮搜索宿舍楼，根据宿舍楼id查询某一个宿舍楼信息，只会返回一个
 				//强制类型转换成int型
 				DormBuild build = dormBuildService.findById(Integer.parseInt(id));
-				request.setAttribute("builds", builds);
+				builds.add(build);
 			}
-			
+
+			System.out.println("builds:"+builds);
+			request.setAttribute("builds", builds);
 			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			
