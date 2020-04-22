@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	function checkForm(){
 		//检查用户是否输入宿舍楼名字
@@ -17,8 +18,12 @@
 </script>
 <div class="data_list">
 		<div class="data_list_title">
-		
-				修改宿舍楼/添加宿舍楼
+			<c:if test="${build.id == null }">
+				添加宿舍楼
+			</c:if>
+			<c:if test="${build.id != null }">
+				修改宿舍楼
+			</c:if>
 		</div>
 		<form action="dormBuild.action?action=save" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
@@ -26,11 +31,11 @@
 				<table align="center">
 					<tr>
 						<td><font color="red">*</font>名称：</td>
-						<td><input type="text" id="name"  name="name" value=""  style="margin-top:5px;height:30px;" /></td>
+						<td><input type="text" id="name"  name="name" value="${build.name}"  style="margin-top:5px;height:30px;" /></td>
 					</tr>
 					<tr>
 						<td>&nbsp;简介：</td>
-						<td><textarea id="remark" name="remark" rows="10"></textarea></td>
+						<td><textarea id="remark" name="remark" rows="10">${build.remark}</textarea></td>
 					</tr>
 				</table>
 				<div align="center">

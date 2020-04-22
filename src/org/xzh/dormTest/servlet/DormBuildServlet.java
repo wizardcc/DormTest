@@ -37,13 +37,14 @@ public class DormBuildServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
+		//通过request.getParameter("id")方式获取的值都是String类型
+		String id = request.getParameter("id");
 		System.out.println("action:"+action);
 		
 		DormBuildService dormBuildService = new DormBuildServiceImpl();
 		
 		if(action != null & action.equals("list")) {
-			//通过request.getParameter("id")方式获取的值都是String类型
-			String id = request.getParameter("id");
+			
 			//条件判断是同页面中的无参查询方法还是带参查询方法
 			List<DormBuild>  builds = new ArrayList<DormBuild>();
 			if(id == null || id.equals("")) {
@@ -100,6 +101,14 @@ public class DormBuildServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 				
 			}
+		}else if(action != null & action.equals("preUpdate")) {
+			//根据宿舍楼id，查询宿舍楼
+			DormBuild build = dormBuildService.findById(Integer.parseInt(id));
+			//保存宿舍楼信息，到前端页面展示
+			request.setAttribute("build", build);
+			//跳转到宿舍楼修改页面,请求链没断开
+			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildAddOrUpdate.jsp");
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}
 		
 	}
