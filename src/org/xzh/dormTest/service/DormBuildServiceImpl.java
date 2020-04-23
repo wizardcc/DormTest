@@ -26,5 +26,9 @@ public class DormBuildServiceImpl implements DormBuildService {
 	public DormBuild findById(Integer id) {
 		return dormBuildDao.findById(id);
 	}
+	@Override
+	public void update(DormBuild dormBuild) {
+		dormBuildDao.update(dormBuild);
+	}
 
 }

@@ -80,27 +80,55 @@ public class DormBuildServlet extends HttpServlet {
 			System.out.println("name:"+name+"remark"+remark);
 			
 			//宿舍楼名字不能重复，从数据库查询，当前用户输入的宿舍楼名字是否已经存在
-			DormBuild dormBuild = dormBuildService.findByName(name);
+			DormBuild  dormBuild = dormBuildService.findByName(name);
 			System.out.println("dormBuild:"+dormBuild);
-			
-			if(dormBuild != null) {
-				//表明用户输入的宿舍楼名已存在
-				//表示跳转到宿舍楼添加页面
-				request.setAttribute("error", "当前宿舍楼名已存在，请重新输入!");
-				request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildAddOrUpdate.jsp");
-				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			if(id != null && !id.equals("")) {
+				//更新
+				//不等于空即已存在,特别注意后面的条件可以区分开同名
+				if(dormBuild != null && !dormBuild.getId().equals(Integer.parseInt(id))) {
+					//表示跳转到宿舍楼添加页面
+					request.setAttribute("error", "当前宿舍楼名已存在，请重新输入！");
+					
+					//根据宿舍楼id，查询宿舍楼
+					DormBuild build = dormBuildService.findById(Integer.parseInt(id));
+					//保存宿舍楼信息，到前端页面展示
+					request.setAttribute("build", build);
+					request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildAddOrUpdate.jsp");
+					request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+				}else {
+					dormBuild = dormBuildService.findById(Integer.parseInt(id));
+					dormBuild.setName(name);
+					dormBuild.setRemark(remark);
+					
+					//执行更新，公司开发常用办法直接传dormBuild过去，而不是一个一个属性值，为了方法复用
+					dormBuildService.update(dormBuild);
+					//更新完成，转到宿舍楼管理列表页，查询所有宿舍楼
+					List<DormBuild>  builds  = dormBuildService.find();
+					request.setAttribute("builds", builds);
+					request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
+					request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+					
+				}
 			}else {
-				//当前用户输入的宿舍楼名不存在，则保存用户输入的信息到数据库
-				DormBuild build = new DormBuild();
-				build.setName(name);
-				build.setRemark(remark);
-				build.setDisabled(0);
-				dormBuildService.save(build);
-				//跳转到main.jsp
-				request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
-				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
-				
+				//保存
+				if(dormBuild != null) {
+					//当前用户输入的宿舍楼名已存在
+					//表示跳转到宿舍楼添加页面
+					request.setAttribute("error", "当前宿舍楼名已存在，请重新输入！");
+					request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildAddOrUpdate.jsp");
+					request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+				}else {
+					//当前用户输入的宿舍楼名不存在，则保存用户输入的信息到数据库
+					DormBuild build = new DormBuild();
+					build.setName(name);
+					build.setRemark(remark);
+					build.setDisabled(0);
+					dormBuildService.save(build);
+					request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
+					request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+				}
 			}
+			
 		}else if(action != null & action.equals("preUpdate")) {
 			//根据宿舍楼id，查询宿舍楼
 			DormBuild build = dormBuildService.findById(Integer.parseInt(id));

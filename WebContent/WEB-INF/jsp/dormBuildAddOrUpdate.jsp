@@ -27,7 +27,7 @@
 		</div>
 		<form action="dormBuild.action?action=save" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
-				<input type="hidden" id="id" name="id" value=""/>
+				<input type="hidden" id="id" name="id" value="${build.id}"/>
 				<table align="center">
 					<tr>
 						<td><font color="red">*</font>名称：</td>

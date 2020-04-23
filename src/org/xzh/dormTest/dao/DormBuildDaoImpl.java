@@ -149,4 +149,30 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		return null;
 	}
 
+	@Override
+	public void update(DormBuild build) {
+		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
+		Connection connection = ConnectionFactory.getConnection();
+		
+		try {
+			//② 准备SQL语句
+			String sql = "UPDATE tb_dormbuild SET NAME = ?,remark =?,disabled = ? WHERE id = ?";
+			
+			//③ 获取运输载体
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			//索引从1开始
+			preparedStatement.setString(1, build.getName());
+			preparedStatement.setString(2, build.getRemark());
+			preparedStatement.setInt(3, build.getDisabled());
+			preparedStatement.setInt(4, build.getId());
+			
+			//④执行SQL,更新
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

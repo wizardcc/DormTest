@@ -14,4 +14,6 @@ public interface DormBuildService {
 
 	DormBuild findById(Integer id);
 
+	void update(DormBuild dormBuild);
+
 }
