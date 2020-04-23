@@ -137,6 +137,22 @@ public class DormBuildServlet extends HttpServlet {
 			//跳转到宿舍楼修改页面,请求链没断开
 			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		}else if(action != null & action.equals("deleteOrAcive")) {
+			//删除或激活
+			String disabled = request.getParameter("disabled");
+			
+			DormBuild  dormBuild = dormBuildService.findById(Integer.parseInt(id));
+			System.out.println("更新前dormBuild："+dormBuild);
+			dormBuild.setDisabled(Integer.parseInt(disabled));
+			System.out.println("更新后dormBuild："+dormBuild);
+			
+			//执行更新
+			dormBuildService.update(dormBuild);
+			//更新完成，跑到宿舍楼管理列表页，查询所有宿舍楼
+			List<DormBuild>  builds  = dormBuildService.find();
+			request.setAttribute("builds", builds);
+			request.setAttribute("mainRight", "/WEB-INF/jsp/dormBuildList.jsp");
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}
 		
 	}

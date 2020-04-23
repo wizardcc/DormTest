@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	function dormBuildDeleteOrActive(dormBuildId,disabled) {
-		if(confirm("您确定要删除这个宿舍楼吗？")) {
+		if(confirm("您确定要删除/激活这个宿舍楼吗？")) {
 			window.location="dormBuild.action?action=deleteOrAcive&id="+dormBuildId+"&disabled="+disabled;
 		}
 	}
