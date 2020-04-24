@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
 		
 		try {
 			//② 准备SQL语句
-			String sql = "select * from tb_user where stu_code = ? and password = ?";
+			String sql = "select * from tb_user where stu_code = ? and password=?  and disabled = 0";
 			
 			//③ 获取运输载体
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);

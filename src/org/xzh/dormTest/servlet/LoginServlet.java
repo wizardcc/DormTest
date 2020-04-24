@@ -1,6 +1,8 @@
 package org.xzh.dormTest.servlet;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +35,8 @@ public class LoginServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("=======登录=======");
+		//Tomcat8.0 处理post请求乱码问题,如果是get方式不用加，因为post方法Tomcat没有帮忙处理乱码问题
+		request.setCharacterEncoding("utf-8");
 		//根据输入框标签的name属性值去获取对应用户输入的值（登录名和密码）
 		String stuCode = request.getParameter("stuCode");
 		String password = request.getParameter("password");
@@ -59,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 			if(remember != null && remember.equals("remember-me")) {
 				//System.out.println("记住密码");
 				//记住密码一周，时间以秒为单位
-				CookieUtil.addCookie("cookie_name_pass",7*24*60*60,request,response,stuCode,password);//名字、时间、响应对象、参数
+				CookieUtil.addCookie("cookie_name_pass",7*24*60*60,request,response,URLEncoder.encode(stuCode, "utf-8"),URLEncoder.encode(password, "utf-8"));//名字、时间、响应对象、参数
 			}
 			System.out.println("======跳转到主页面======");
 			//WEB-INF下面的内容是受保护的，不能在通过地址栏直接访问，也不能通过response.sendRedirect重定向的形势访问
