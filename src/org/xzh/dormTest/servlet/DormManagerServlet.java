@@ -37,6 +37,8 @@ public class DormManagerServlet extends HttpServlet {
 			//跳转到宿舍管理员添加页面
 			request.setAttribute("mainRight", "dormManagerAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		}else if(action != null & action.equals("save")) {
+			System.out.println("======保存宿舍管理员=========");
 		}
 	}
 

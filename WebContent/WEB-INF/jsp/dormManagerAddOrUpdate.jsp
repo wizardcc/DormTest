@@ -2,15 +2,28 @@
     pageEncoding="UTF-8"%>
 <script type="text/javascript">
 	function checkForm(){
+		//通过ID获取输入框中用户输入的值
 		var name=document.getElementById("name").value;
 		var password=document.getElementById("passWord").value;
 		var rPassword=document.getElementById("rPassword").value;
 		
 		var sex=document.getElementById("sex").value;
 		var tel=document.getElementById("tel").value;
-		if(name==""||password==""||rPassword==""||sex==""||tel==""){
+		
+		//获取所有的宿舍楼复选框
+		var dormBuildIdCheckBox = document.getElementsByName("dormBuildId");
+		var checkBoxValue = new Array();
+		for (var i = 0; i < dormBuildIdCheckBox.length; i++) {
+			if(dormBuildIdCheckBox[i].checked){
+				//复选框被选中，dormBuildIdCheckBox[i].checked返回值为true，将复选框中的值添加到数组中
+				checkBoxValue.push(dormBuildIdCheckBox[i].value);
+			}
+		}
+		
+		if(name==""||password==""||rPassword==""||sex==""||tel==""|| checkBoxValue.length<1){
 			document.getElementById("error").innerHTML="信息填写不完整！";
 			return false;
+			
 		} else if(password!=rPassword){
 			document.getElementById("error").innerHTML="密码填写不一致！";
 			return false;
