@@ -58,8 +58,9 @@ public class LoginFilter implements Filter {
 			//登录，就放行，走处理该请求的方法
 			//通过user 判断登录的用户角色是否有对该请求的访问权限
 			//通过request中的httpServletRequest.getRequestURI(); 来获取用户发送的请求
+			//角色判断
 			roleJudgment(user,httpServletRequest,response,chain);
-			
+			//现在登录后不能放行，判断该请求的权限
 			//chain.doFilter(request, response);
 		}else {
 			//② 判断cookie中是否有用户信息，即学号和密码
@@ -84,7 +85,7 @@ public class LoginFilter implements Filter {
 					//通过user 判断登录的用户角色是否有对该请求的访问权限
 					//通过request中的httpServletRequest.getRequestURI(); 来获取用
 					roleJudgment(user2,httpServletRequest,response,chain);
-					
+					//将用户信息保存在session中
 					/*httpServletRequest.getSession().setAttribute("session_user", user2);
 					chain.doFilter(request, response);*/
 					
@@ -118,6 +119,7 @@ public class LoginFilter implements Filter {
 		if( (requestUrI.startsWith(path+"/dormBuild.action") || requestUrI.startsWith(path+"/dormManager.action"))
 				&& roleId.equals(0)) {
 			//当用户发送的是宿舍楼管理模块或者宿舍管理员管理模块的请求时，只有在当前用户角色为超级管理员时才放行
+			//用户信息保存在session中
 			httpServletRequest.getSession().setAttribute("session_user", user);
 			chain.doFilter(httpServletRequest, response);
 			
@@ -134,6 +136,7 @@ public class LoginFilter implements Filter {
 			httpServletRequest.getSession().setAttribute("session_user", user);
 			chain.doFilter(httpServletRequest, response);
 		}else {
+			//跳转到index.jsp
 			httpServletRequest.getRequestDispatcher("/index.jsp").forward(httpServletRequest, response);
 		}
 	}
