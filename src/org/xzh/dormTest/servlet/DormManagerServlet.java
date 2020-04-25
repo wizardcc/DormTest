@@ -40,6 +40,8 @@ public class DormManagerServlet extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("===========dormManager.action==========");
+		//在Tomcat8.0中解决post请求乱码问题
+		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
 		
 		UserService userService = new UserServiceImpl();

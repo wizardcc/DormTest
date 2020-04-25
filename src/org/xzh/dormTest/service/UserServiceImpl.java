@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
 		System.out.println("userId:"+userId);
 		
 		//保存宿舍管理员和宿舍楼的中间表
-		//dormBuildDao.saveManagerAndBuild(userId,dormBuildIds);
 	}
 
 }
