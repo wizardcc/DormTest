@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.xzh.dormTest.bean.User;
 import org.xzh.dormTest.util.ConnectionFactory;
@@ -50,6 +53,69 @@ public class UserDaoImpl implements UserDao {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String findManagerStuCodeMax() {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet  rs = null;
+		try {
+			//② 准备SQL语句
+			//IFNULL(参数1，参数2)函数，用于判断第一个表达式是否为NULL，如果为NULL，则返回第二个参数的值。如果不为NULL，就返回第一个参数的值
+			String sql = "select IFNULL( Max(stu_code),20191023)+1 from tb_user where role_id =1";
+			//③ 获取集装箱或者说是车
+			preparedStatement = connection.prepareStatement(sql);
+			
+			
+			//④执行SQL,获取执行后的结果,查询的结果封装在ResultSet
+			rs = preparedStatement.executeQuery();
+			
+			rs.next();
+			return rs.getString(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Integer saveManager(User user) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet  resultSet = null;
+		try {
+			//② 准备SQL语句
+			//IFNULL(参数1，参数2)函数，用于判断第一个表达式是否为NULL，如果为NULL，则返回第二个参数的值。如果不为NULL，就返回第一个参数的值
+			String sql = "INSERT INTO tb_user(NAME,PASSWORD,stu_code,sex,tel,role_id,create_user_id,disabled) VALUE(?,?,?,?,?,?,?,?)";
+			
+			//③ 获取集装箱或者说是车  Statement.RETURN_GENERATED_KEYS指定返回生成的注解
+			preparedStatement = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setString(1, user.getName());
+			preparedStatement.setString(2, user.getPassWord());
+			preparedStatement.setString(3, user.getStuCode());
+			preparedStatement.setString(4, user.getSex());
+			preparedStatement.setString(5, user.getTel());
+			preparedStatement.setInt(6, user.getRoleId());
+			preparedStatement.setInt(7, user.getCreateUserId());
+			preparedStatement.setInt(8, user.getDisabled());
+			
+			
+			//④执行SQL,获取执行后的结果,查询的结果封装在ResultSet
+			preparedStatement.executeUpdate();
+			//获取主键
+			resultSet = preparedStatement.getGeneratedKeys();
+			//只有一个值，只需要指针下移一位
+			resultSet.next();
+			
+			return resultSet.getInt(1);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;

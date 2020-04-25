@@ -6,4 +6,8 @@ public interface UserDao {
 
 	User findByStuCodeAndPass(String name, String password);
 
+	String findManagerStuCodeMax();
+
+	Integer saveManager(User user);
+
 }
