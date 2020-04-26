@@ -17,18 +17,19 @@ public class DormBuildDaoImpl implements DormBuildDao {
 	public DormBuild findByName(String name) {
 		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
 		Connection connection = ConnectionFactory.getConnection();
-		
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		try {
 			//② 准备SQL语句
 			String sql = "select * from tb_dormbuild where name = ?";
 			
 			//③ 获取运输载体
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			//索引从1开始
 			preparedStatement.setString(1, name);
 			//④ 执行sql语句,⑤ 获取执行后的结果
 			//查询的结果封装在ResultSet中，此时表头也查出来了，指针在表头位置，如果指针里面有数据才封装
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			//查询结果中包含表头信息，所以要指针下移一行，看是否有查询出来的数据
 			//如有数据，就进入循环体封装该行数据
@@ -45,6 +46,8 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, rs);
 		}
 		return null;
 	}
@@ -53,13 +56,13 @@ public class DormBuildDaoImpl implements DormBuildDao {
 	public void save(DormBuild build) {
 		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
 		Connection connection = ConnectionFactory.getConnection();
-		
+		PreparedStatement preparedStatement = null;
 		try {
 			//② 准备SQL语句
 			String sql = "INSERT INTO tb_dormbuild(NAME,remark,disabled) VALUES(?,?,?) ";
 			
 			//③ 获取运输载体
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			//索引从1开始
 			preparedStatement.setString(1, build.getName());
 			preparedStatement.setString(2, build.getRemark());
@@ -72,6 +75,8 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, null);
 		}
 	}
 
@@ -80,17 +85,18 @@ public class DormBuildDaoImpl implements DormBuildDao {
 	public List<DormBuild> find() {
 		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
 		Connection connection = ConnectionFactory.getConnection();
-		
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		try {
 			//② 准备SQL语句
 			String sql = "select * from tb_dormbuild ";
 			
 			//③ 获取运输载体
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			
 			//④ 执行sql语句,⑤ 获取执行后的结果
 			//查询的结果封装在ResultSet中，此时表头也查出来了，指针在表头位置，如果指针里面有数据才封装
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			//查询结果中包含表头信息，所以要指针下移一行，看是否有查询出来的数据
 			//如有数据，就进入循环体封装该行数据
@@ -109,6 +115,8 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, rs);
 		}
 		return null;
 	}
@@ -117,18 +125,19 @@ public class DormBuildDaoImpl implements DormBuildDao {
 	public DormBuild findById(Integer id) {
 		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
 		Connection connection = ConnectionFactory.getConnection();
-		
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		try {
 			//② 准备SQL语句
 			String sql = "select * from tb_dormbuild where id = ?";
 			
 			//③ 获取运输载体
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			//索引从1开始
 			preparedStatement.setInt(1, id);
 			//④ 执行sql语句,⑤ 获取执行后的结果
 			//查询的结果封装在ResultSet中，此时表头也查出来了，指针在表头位置，如果指针里面有数据才封装
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			//查询结果中包含表头信息，所以要指针下移一行，看是否有查询出来的数据
 			//如有数据，就进入循环体封装该行数据
@@ -145,6 +154,8 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, rs);
 		}
 		return null;
 	}
@@ -153,13 +164,13 @@ public class DormBuildDaoImpl implements DormBuildDao {
 	public void update(DormBuild build) {
 		//① 获取连接（数据库地址  用户名 密码）,用java.sql的包
 		Connection connection = ConnectionFactory.getConnection();
-		
+		PreparedStatement preparedStatement = null;
 		try {
 			//② 准备SQL语句
 			String sql = "UPDATE tb_dormbuild SET NAME = ?,remark =?,disabled = ? WHERE id = ?";
 			
 			//③ 获取运输载体
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql);
 			//索引从1开始
 			preparedStatement.setString(1, build.getName());
 			preparedStatement.setString(2, build.getRemark());
@@ -172,6 +183,8 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, null);
 		}
 	}
 
@@ -198,6 +211,8 @@ public class DormBuildDaoImpl implements DormBuildDao {
 			preparedStatement.executeBatch();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, null);
 		}
 	}
 

@@ -1,6 +1,8 @@
 package org.xzh.dormTest.util;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -21,4 +23,16 @@ public class ConnectionFactory {
 		}
 		return null;
 	}
+	
+	//资源关闭工具方法
+		public static void close(Connection connection,PreparedStatement preparedStatement,ResultSet resultSet) {
+			try {
+				//释放资源，根据先开后放
+				if(resultSet != null)  resultSet.close();
+				if(preparedStatement != null)  preparedStatement.close();
+				if(connection != null)  connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 }
