@@ -45,6 +45,7 @@ public class DormManagerServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		UserService userService = new UserServiceImpl();
+		DormBuildService buildService = new DormBuildServiceImpl();
 		
 		if(action != null & action.equals("list")) {
 			//宿舍管理员查询
@@ -52,6 +53,10 @@ public class DormManagerServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}else if(action != null & action.equals("preAdd")) {
 			//跳转到宿舍管理员添加页面
+			//查询所有的宿舍楼并保存，以便在添加和修改宿舍管理员时在前端展示
+			List<DormBuild>  builds = buildService.find();
+			request.setAttribute("builds", builds);
+			
 			request.setAttribute("mainRight", "dormManagerAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}else if(action != null & action.equals("save")) {
@@ -66,6 +71,7 @@ public class DormManagerServlet extends HttpServlet {
 			
 			User user = new User(name, passWord, sex, tel, null, 1);
 			user.setDisabled(0);
+			
 			//当前登录的用户
 			User user2 = (User) request.getSession().getAttribute("session_user");
 			user.setCreateUserId(user2.getId());

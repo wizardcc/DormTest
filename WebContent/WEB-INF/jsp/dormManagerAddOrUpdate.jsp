@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	function checkForm(){
 		//通过ID获取输入框中用户输入的值
@@ -78,9 +79,11 @@
 						<tr>
 							<td><font color="red">*</font>管理楼栋：</td>
 							<td>
-								<input name="dormBuildId" value="1"  style="heigth:14px;vertical-align:top"  type="checkbox" >1号宿舍楼  &nbsp;
-								<input name="dormBuildId" value="2"  style="heigth:14px;vertical-align:top"  type="checkbox" >2号宿舍楼  &nbsp;
-								<input name="dormBuildId" value="3"  style="heigth:14px;vertical-align:top"  type="checkbox" >3号宿舍楼  &nbsp;
+								<!--遍历所有的宿舍楼  -->
+								<c:forEach items="${builds}"  var="build">
+									<input name="dormBuildId" value="${build.id}"  style="heigth:14px;vertical-align:top"  type="checkbox" >
+									${build.name}  &nbsp;
+								</c:forEach>
 							</td>
 						</tr>
 					</table>
