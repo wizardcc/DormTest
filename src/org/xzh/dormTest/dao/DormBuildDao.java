@@ -16,4 +16,6 @@ public interface DormBuildDao {
 
 	void update(DormBuild dormBuild);
 
+	void saveManagerAndBuild(Integer userId, String[] dormBuildIds);
+
 }

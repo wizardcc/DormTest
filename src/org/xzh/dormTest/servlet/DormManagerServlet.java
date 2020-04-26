@@ -70,7 +70,7 @@ public class DormManagerServlet extends HttpServlet {
 			User user2 = (User) request.getSession().getAttribute("session_user");
 			user.setCreateUserId(user2.getId());
 			//当前的登录的用户的ID
-			userService.saveManager(user);
+			userService.saveManager(user,dormBuildIds);
 		}
 	}
 

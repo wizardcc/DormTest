@@ -6,6 +6,6 @@ public interface UserService {
 
 	User findByStuCodeAndPass(String name, String password);
 
-	void saveManager(User user);
+	void saveManager(User user, String[] dormBuildIds);
 
 }

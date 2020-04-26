@@ -175,4 +175,30 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		}
 	}
 
+	@Override
+	public void saveManagerAndBuild(Integer userId, String[] dormBuildIds) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		try {
+			//② 准备SQL语句
+			String sql = "INSERT INTO tb_manage_dormbuild(USER_ID,DormBuild_id) VALUE(?,?)";
+			//③ 获取集装箱或者说是车
+			preparedStatement = connection.prepareStatement(sql);
+			//循环遍历
+			for (String dormBuildId : dormBuildIds) {
+				//索引从1开始
+				preparedStatement.setInt(1, userId);
+				preparedStatement.setInt(2, Integer.parseInt(dormBuildId));
+				
+				//将sql语句添加到批处理
+				preparedStatement.addBatch();
+			}
+			//执行批处理
+			preparedStatement.executeBatch();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
