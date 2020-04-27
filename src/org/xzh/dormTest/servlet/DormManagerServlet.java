@@ -49,6 +49,14 @@ public class DormManagerServlet extends HttpServlet {
 		
 		if(action != null & action.equals("list")) {
 			//宿舍管理员查询
+			String searchType = request.getParameter("searchType");
+			String keyword = request.getParameter("keyword");
+			System.out.println("searchType:"+searchType+"  keyword:"+keyword);
+			
+			//查询宿舍管理员
+			List<User>  users = userService.findManager(searchType,keyword);
+			
+			request.setAttribute("users", users);
 			request.setAttribute("mainRight", "dormManagerList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}else if(action != null & action.equals("preAdd")) {

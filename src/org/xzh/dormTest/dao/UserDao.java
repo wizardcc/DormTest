@@ -1,5 +1,7 @@
 package org.xzh.dormTest.dao;
 
+import java.util.List;
+
 import org.xzh.dormTest.bean.User;
 
 public interface UserDao {
@@ -9,5 +11,7 @@ public interface UserDao {
 	String findManagerStuCodeMax();
 
 	Integer saveManager(User user);
+
+	List<User> findManager(String sql);
 
 }

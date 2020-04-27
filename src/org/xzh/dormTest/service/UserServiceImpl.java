@@ -1,5 +1,7 @@
 package org.xzh.dormTest.service;
 
+import java.util.List;
+
 import org.xzh.dormTest.bean.User;
 import org.xzh.dormTest.dao.DormBuildDao;
 import org.xzh.dormTest.dao.DormBuildDaoImpl;
@@ -28,6 +30,30 @@ public class UserServiceImpl implements UserService {
 		
 		//保存宿舍管理员和宿舍楼的中间表
 		dormBuildDao.saveManagerAndBuild(userId,dormBuildIds);
+	}
+	@Override
+	public List<User> findManager(String searchType, String keyword) {
+		StringBuffer  sql = new StringBuffer("SELECT * FROM tb_user WHERE role_id=1 ");
+		
+		if(keyword != null && !keyword.equals("")) {
+			//说明用户是点击搜索按钮进行搜索
+			if("name".equals(searchType)) {
+				sql.append(" and name like '%"+keyword+"%'");
+			}else if("sex".equals(searchType)) {
+				sql.append(" and sex = '"+keyword.trim()+"'");
+			}else if("tel".equals(searchType)) {
+				sql.append(" and tel ="+keyword.trim());
+			}
+		}
+		
+		System.out.println("sql:"+sql.toString());
+		
+		//查询宿舍管理员
+		List<User> users= userDao.findManager(sql.toString());
+		
+		System.out.println("users:"+users);
+		
+		return users;
 	}
 
 }
