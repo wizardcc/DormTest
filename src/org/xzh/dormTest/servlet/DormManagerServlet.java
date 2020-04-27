@@ -77,6 +77,11 @@ public class DormManagerServlet extends HttpServlet {
 			user.setCreateUserId(user2.getId());
 			//当前的登录的用户的ID
 			userService.saveManager(user,dormBuildIds);
+			
+			//跳转到宿舍管理员列表页，查看所有的宿舍管理员
+			//重定向，请求链断开，不能在下一个servlet或jsp中获取保存在request中的参数
+			//动态获取项目名字
+			response.sendRedirect(getServletContext().getContextPath()+"/dormManager.action?action=list");
 		}
 	}
 
