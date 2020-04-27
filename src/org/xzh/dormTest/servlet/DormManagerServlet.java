@@ -56,6 +56,9 @@ public class DormManagerServlet extends HttpServlet {
 			//查询宿舍管理员
 			List<User>  users = userService.findManager(searchType,keyword);
 			
+			//将搜索的条件保存在request中
+			request.setAttribute("searchType", searchType);
+			request.setAttribute("keyword", keyword);
 			request.setAttribute("users", users);
 			request.setAttribute("mainRight", "dormManagerList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);

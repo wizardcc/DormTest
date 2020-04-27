@@ -18,4 +18,6 @@ public interface DormBuildDao {
 
 	void saveManagerAndBuild(Integer userId, String[] dormBuildIds);
 
+	List<DormBuild> findByUserId(Integer id);
+
 }

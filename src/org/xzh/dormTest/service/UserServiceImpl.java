@@ -2,11 +2,13 @@ package org.xzh.dormTest.service;
 
 import java.util.List;
 
+import org.xzh.dormTest.bean.DormBuild;
 import org.xzh.dormTest.bean.User;
 import org.xzh.dormTest.dao.DormBuildDao;
 import org.xzh.dormTest.dao.DormBuildDaoImpl;
 import org.xzh.dormTest.dao.UserDao;
 import org.xzh.dormTest.dao.UserDaoImpl;
+import org.xzh.dormTest.util.ConnectionFactory;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl();
@@ -50,7 +52,10 @@ public class UserServiceImpl implements UserService {
 		
 		//查询宿舍管理员
 		List<User> users= userDao.findManager(sql.toString());
-		
+		for (User user : users) {
+			List<DormBuild>  builds = dormBuildDao.findByUserId(user.getId());
+			user.setDormBuilds(builds);
+		}
 		System.out.println("users:"+users);
 		
 		return users;

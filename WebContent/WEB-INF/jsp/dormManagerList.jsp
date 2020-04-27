@@ -61,7 +61,7 @@
 						<td>${user.sex }</td>
 						<td>${user.tel }</td>
 						<td>
-							<!-- 遍历宿舍管理员管理的所有宿舍楼 -->
+							<!-- 遍历宿舍管理员管理的所有宿舍楼,每个对象间空格隔开  -->
 							<c:forEach items="${user.dormBuilds}" var="dormBuild">
 								${dormBuild.name} &nbsp;
 							</c:forEach>
