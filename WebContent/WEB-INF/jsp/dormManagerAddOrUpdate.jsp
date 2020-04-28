@@ -35,29 +35,52 @@
 		return true;
 	}
 	
+	//文档加载完成后
+	window.onload = function(){
+		//获取所有的复选框 
+		var dormBuildIdInputs = document.getElementsByName("dormBuildId");
+		
+		//获取当前宿舍管理员管理的楼栋ID  通过"${userBuildids}"获取得到的是一个String类型的数据
+		var userBuildids = JSON.parse("${userBuildids}");
+		
+		for (var i = 0; i < dormBuildIdInputs.length; i++) {
+			$.each(userBuildids, function(j, userBuildid){
+				if(dormBuildIdInputs[i].value == userBuildid){
+					dormBuildIdInputs[i].checked = true;
+				}
+				
+			});
+		}
+	}
+	
+	
 	$(document).ready(function(){
 		$("#dormManager").addClass("active");
 	});
 </script>
 <div class="data_list">
 		<div class="data_list_title">
-		
-				修改管理员/添加管理员
+			<c:if test="${not empty user.id}">
+				修改管理员
+			</c:if>
+			<c:if test="${empty user.id}">
+				添加管理员
+			</c:if>
 		</div>
 		<form action="dormManager.action?action=save" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
-				<input type="hidden" id="id" name="id" value="1"/>
+				<input type="hidden" id="id" name="id" value="${user.id}"/>
 					<div align="center">
 						<font id="error" color="red"></font>
 					</div>
 					<table align="center">
 						<tr>
 							<td><font color="red">*</font>姓名：</td>
-							<td><input type="text" id="name"  name="name" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="name"  name="name" value="${user.name}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>密码：</td>
-							<td><input type="password" id="passWord"  name="passWord" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="password" id="passWord"  name="passWord" value="${user.passWord}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>重复密码：</td>
@@ -67,14 +90,14 @@
 							<td><font color="red">*</font>性别：</td>
 							<td>
 								<select id="sex" name="sex" style="width: 90px;">
-									<option value="男">男</option>
-									<option value="女">女</option>
+									<option value="男" ${user.sex eq "男" ? "selected" : ''}>男</option>
+									<option value="女" ${user.sex eq "女" ? "selected" : ''}>女</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>联系电话：</td>
-							<td><input type="text" id="tel"  name="tel" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="tel"  name="tel" value="${user.tel}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>管理楼栋：</td>

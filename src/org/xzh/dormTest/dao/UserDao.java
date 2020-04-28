@@ -14,4 +14,6 @@ public interface UserDao {
 
 	List<User> findManager(String sql);
 
+	User findById(int id);
+
 }

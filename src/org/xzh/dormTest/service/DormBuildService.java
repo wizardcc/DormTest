@@ -16,4 +16,6 @@ public interface DormBuildService {
 
 	void update(DormBuild dormBuild);
 
+	List<DormBuild> findByUserId(Integer id);
+
 }

@@ -60,5 +60,9 @@ public class UserServiceImpl implements UserService {
 		
 		return users;
 	}
+	@Override
+	public User findById(int id) {
+		return userDao.findById(id);
+	}
 
 }

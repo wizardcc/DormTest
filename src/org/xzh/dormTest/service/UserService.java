@@ -12,4 +12,6 @@ public interface UserService {
 
 	List<User> findManager(String searchType, String keyword);
 
+	User findById(int id);
+
 }

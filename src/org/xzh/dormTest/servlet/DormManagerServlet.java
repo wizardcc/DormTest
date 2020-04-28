@@ -43,6 +43,8 @@ public class DormManagerServlet extends HttpServlet {
 		//在Tomcat8.0中解决post请求乱码问题
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
+		//宿舍管理员ID
+		String id = request.getParameter("id");
 		
 		UserService userService = new UserServiceImpl();
 		DormBuildService buildService = new DormBuildServiceImpl();
@@ -93,6 +95,27 @@ public class DormManagerServlet extends HttpServlet {
 			//重定向，请求链断开，不能在下一个servlet或jsp中获取保存在request中的参数
 			//动态获取项目名字
 			response.sendRedirect(getServletContext().getContextPath()+"/dormManager.action?action=list");
+		}else if(action != null & action.equals("preUpdate")) {
+			//跳转到修改宿舍管理员的页面
+			
+			//根据宿舍管理员ID，获取宿舍管理员
+			User user = userService.findById(Integer.parseInt(id));
+			//根据宿舍管理员ID获取宿舍管理员管理的楼栋
+			List<DormBuild> userBuilds = buildService.findByUserId(user.getId());
+			user.setDormBuilds(userBuilds);
+			System.out.println("user:"+user);
+			
+			List<Integer>  userBuildids = new ArrayList<>();
+			//遍历当前宿舍管理员管理的所有宿舍，获取当时当前宿舍管理员管理的所有宿舍ID
+			for (DormBuild userBuild : userBuilds) {
+				userBuildids.add(userBuild.getId());
+			}
+			
+			
+			request.setAttribute("userBuildids", userBuildids);
+			request.setAttribute("user", user);
+			request.setAttribute("mainRight", "dormManagerAddOrUpdate.jsp");
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}
 	}
 
