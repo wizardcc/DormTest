@@ -49,6 +49,10 @@ public class DormManagerServlet extends HttpServlet {
 		UserService userService = new UserServiceImpl();
 		DormBuildService buildService = new DormBuildServiceImpl();
 		
+		//查询所有的宿舍楼并保存，以便在添加和修改宿舍管理员时在前端展示
+		List<DormBuild>  builds = buildService.find();
+		request.setAttribute("builds", builds);
+		
 		if(action != null & action.equals("list")) {
 			//宿舍管理员查询
 			String searchType = request.getParameter("searchType");
@@ -66,9 +70,6 @@ public class DormManagerServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}else if(action != null & action.equals("preAdd")) {
 			//跳转到宿舍管理员添加页面
-			//查询所有的宿舍楼并保存，以便在添加和修改宿舍管理员时在前端展示
-			List<DormBuild>  builds = buildService.find();
-			request.setAttribute("builds", builds);
 			
 			request.setAttribute("mainRight", "dormManagerAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
