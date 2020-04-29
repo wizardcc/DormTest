@@ -20,4 +20,6 @@ public interface DormBuildService {
 
 	void deleteByUserId(Integer id);
 
+	void saveManagerAndBuild(Integer id, String[] dormBuildIds);
+
 }

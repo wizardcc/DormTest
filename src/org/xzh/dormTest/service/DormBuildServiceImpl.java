@@ -38,5 +38,9 @@ public class DormBuildServiceImpl implements DormBuildService {
 	public void deleteByUserId(Integer id) {
 		dormBuildDao.deleteByUserId(id);
 	}
+	@Override
+	public void saveManagerAndBuild(Integer id, String[] dormBuildIds) {
+		dormBuildDao.saveManagerAndBuild(id, dormBuildIds);
+	}
 
 }
