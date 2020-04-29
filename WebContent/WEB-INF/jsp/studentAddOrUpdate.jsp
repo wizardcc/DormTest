@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	function checkForm(){
 		var stuCode=document.getElementById("stuCode").value;
@@ -73,7 +74,9 @@
 							<td><font color="red">*</font>宿舍楼：</td>
 							<td>
 								<select id="dormBuildId" name="dormBuildId" style="width: 90px;">
-										<option value="1">1号楼</option>
+									<c:forEach items="${builds}" var="build">
+										<option value="${build.id}">${build.name}</option>
+									</c:forEach>
 								</select>
 							</td>
 						</tr>
