@@ -28,6 +28,21 @@ public class StudentServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("=========student.action=============");
 		
+		String action = request.getParameter("action");
+		
+		if(action != null & action.equals("list")) {
+			//查询学生在右侧展示
+			
+			request.setAttribute("mainRight", "/WEB-INF/jsp/studentList.jsp");
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			
+		}else if(action != null & action.equals("preAdd")) {
+			
+			//跳转到学生的添加页面
+			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		}
+		
 		request.setAttribute("mainRight", "/WEB-INF/jsp/studentList.jsp");
 		request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 	}
