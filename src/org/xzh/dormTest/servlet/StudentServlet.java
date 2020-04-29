@@ -69,9 +69,6 @@ public class StudentServlet extends HttpServlet {
 			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}
-		
-		request.setAttribute("mainRight", "/WEB-INF/jsp/studentList.jsp");
-		request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 	}
 
 }
