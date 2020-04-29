@@ -137,6 +137,18 @@ public class DormManagerServlet extends HttpServlet {
 			request.setAttribute("user", user);
 			request.setAttribute("mainRight", "dormManagerAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		}else if(action != null & action.equals("deleteOrAcive")) {
+			//删除或激活
+			String  disabled =request.getParameter("disabled");
+			
+			//通过宿舍管理员ID获取宿舍管理员
+			User user = userService.findById(Integer.parseInt(id));
+			user.setDisabled(Integer.parseInt(disabled));
+			userService.updateManager(user);
+			
+			//跳转到宿舍管理员列表页，查看所有的宿舍管理员
+			//重定向，请求链断开，不能在下一个servlet或jsp中获取保存在request中的参数
+			response.sendRedirect(getServletContext().getContextPath()+"/dormManager.action?action=list");
 		}
 	}
 
