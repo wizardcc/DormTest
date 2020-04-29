@@ -22,4 +22,6 @@ public interface DormBuildDao {
 
 	void deleteByUserId(Integer id);
 
+	List<DormBuild> findAll();
+
 }

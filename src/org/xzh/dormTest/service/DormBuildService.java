@@ -22,4 +22,6 @@ public interface DormBuildService {
 
 	void saveManagerAndBuild(Integer id, String[] dormBuildIds);
 
+	List<DormBuild> findAll();
+
 }

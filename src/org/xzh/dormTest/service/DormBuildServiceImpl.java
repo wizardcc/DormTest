@@ -42,5 +42,9 @@ public class DormBuildServiceImpl implements DormBuildService {
 	public void saveManagerAndBuild(Integer id, String[] dormBuildIds) {
 		dormBuildDao.saveManagerAndBuild(id, dormBuildIds);
 	}
+	@Override
+	public List<DormBuild> findAll() {
+		return dormBuildDao.findAll();
+	}
 
 }

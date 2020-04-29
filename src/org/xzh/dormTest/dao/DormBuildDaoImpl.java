@@ -279,4 +279,40 @@ public class DormBuildDaoImpl implements DormBuildDao {
 		}
 	}
 
+	@Override
+	public List<DormBuild> findAll() {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			//② 准备SQL语句
+			String sql = "select * from tb_dormbuild ";
+			//③ 获取集装箱或者说是车
+			preparedStatement = connection.prepareStatement(sql);
+			
+			//④执行SQL,获取执行后的结果,查询的结果封装在ResultSet
+			rs = preparedStatement.executeQuery();
+			
+			//因为查询出来的结果包括表头信息，所以要指针下移一行，看是否有查询出来的数据
+			//如有数据，就进入循环体，封装该行数据
+			List<DormBuild>  builds = new ArrayList<>();
+			while (rs.next()) {
+				DormBuild  build = new DormBuild();
+				build.setId(rs.getInt("id"));
+				build.setName(rs.getString("name"));
+				build.setDisabled(rs.getInt("disabled"));
+				build.setRemark(rs.getString("remark"));
+				
+				builds.add(build);
+			}
+			return builds;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, rs);
+		}
+		return null;
+	}
+
 }
