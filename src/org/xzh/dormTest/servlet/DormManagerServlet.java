@@ -107,9 +107,10 @@ public class DormManagerServlet extends HttpServlet {
 				
 				//修改还需修改宿舍管理员与宿舍楼的中间表
 				//① 删除当前宿舍管理员管理的所有宿舍楼
+				buildService.deleteByUserId(user.getId());
 				
 				//② 新增当前宿舍管理员管理的所有宿舍楼  
-
+				
 			}
 			//跳转到宿舍管理员列表页，查看所有的宿舍管理员
 			//重定向，请求链断开，不能在下一个servlet或jsp中获取保存在request中的参数

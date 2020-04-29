@@ -34,5 +34,9 @@ public class DormBuildServiceImpl implements DormBuildService {
 	public List<DormBuild> findByUserId(Integer id) {
 		return dormBuildDao.findByUserId(id);
 	}
+	@Override
+	public void deleteByUserId(Integer id) {
+		dormBuildDao.deleteByUserId(id);
+	}
 
 }

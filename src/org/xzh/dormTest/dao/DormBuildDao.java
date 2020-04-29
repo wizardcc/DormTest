@@ -20,4 +20,6 @@ public interface DormBuildDao {
 
 	List<DormBuild> findByUserId(Integer id);
 
+	void deleteByUserId(Integer id);
+
 }

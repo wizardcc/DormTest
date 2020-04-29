@@ -18,4 +18,6 @@ public interface DormBuildService {
 
 	List<DormBuild> findByUserId(Integer id);
 
+	void deleteByUserId(Integer id);
+
 }
