@@ -14,4 +14,6 @@ public interface UserService {
 
 	User findById(int id);
 
+	void updateManager(User user);
+
 }

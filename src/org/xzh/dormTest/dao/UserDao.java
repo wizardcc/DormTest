@@ -16,4 +16,6 @@ public interface UserDao {
 
 	User findById(int id);
 
+	void updateManager(User user);
+
 }

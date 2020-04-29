@@ -213,4 +213,35 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
+	@Override
+	public void updateManager(User user) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet  resultSet = null;
+		try {
+			//② 准备SQL语句
+			//IFNULL(参数1，参数2)函数，用于判断第一个表达式是否为NULL，如果为NULL，则返回第二个参数的值。如果不为NULL，就返回第一个参数的值
+			String sql = "UPDATE tb_user SET NAME= ? ,PASSWORD=?,sex=?,tel=?,disabled= ? WHERE id = ?";
+			
+			//③ 获取集装箱或者说是车  Statement.RETURN_GENERATED_KEYS指定返回生成的注解
+			//执行更新不需要返回主键
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, user.getName());
+			preparedStatement.setString(2, user.getPassWord());
+			preparedStatement.setString(3, user.getSex());
+			preparedStatement.setString(4, user.getTel());
+			preparedStatement.setInt(5, user.getDisabled());
+			preparedStatement.setInt(6, user.getId());
+			
+			//④执行SQL,获取执行后的结果,查询的结果封装在ResultSet
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, resultSet);
+		}
+	}
+
 }

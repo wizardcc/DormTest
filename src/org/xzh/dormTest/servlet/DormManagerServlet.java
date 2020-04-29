@@ -83,19 +83,38 @@ public class DormManagerServlet extends HttpServlet {
 			String[] dormBuildIds = request.getParameterValues("dormBuildId");
 			System.out.println("name:"+name+"  pass:"+passWord+"  sex:"+sex+"  tel:"+tel+"  dormBuildIds:"+Arrays.toString(dormBuildIds));
 			
-			User user = new User(name, passWord, sex, tel, null, 1);
-			user.setDisabled(0);
-			
-			//当前登录的用户
-			User user2 = (User) request.getSession().getAttribute("session_user");
-			user.setCreateUserId(user2.getId());
-			//当前的登录的用户的ID
-			userService.saveManager(user,dormBuildIds);
-			
+			if(id == null || id.equals("")) {
+				//保存
+				User user = new User(name, passWord, sex, tel, null, 1);
+				user.setDisabled(0);
+				
+				//当前登录的用户
+				User user2 = (User) request.getSession().getAttribute("session_user");
+				user.setCreateUserId(user2.getId());
+				
+				userService.saveManager(user,dormBuildIds);
+				System.out.println("getServletContext().getContextPath():"+getServletContext().getContextPath());
+				
+			}else {
+				//修改
+				//通过宿舍管理员ID获取宿舍管理员
+				User user = userService.findById(Integer.parseInt(id));
+				user.setName(name);
+				user.setPassWord(passWord);
+				user.setSex(sex);
+				user.setTel(tel);
+				userService.updateManager(user);
+				
+				//修改还需修改宿舍管理员与宿舍楼的中间表
+				//① 删除当前宿舍管理员管理的所有宿舍楼
+				
+				//② 新增当前宿舍管理员管理的所有宿舍楼  
+
+			}
 			//跳转到宿舍管理员列表页，查看所有的宿舍管理员
 			//重定向，请求链断开，不能在下一个servlet或jsp中获取保存在request中的参数
-			//动态获取项目名字
 			response.sendRedirect(getServletContext().getContextPath()+"/dormManager.action?action=list");
+		
 		}else if(action != null & action.equals("preUpdate")) {
 			//跳转到修改宿舍管理员的页面
 			
