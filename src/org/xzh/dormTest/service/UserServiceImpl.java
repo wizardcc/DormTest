@@ -9,6 +9,7 @@ import org.xzh.dormTest.dao.DormBuildDaoImpl;
 import org.xzh.dormTest.dao.UserDao;
 import org.xzh.dormTest.dao.UserDaoImpl;
 import org.xzh.dormTest.util.ConnectionFactory;
+import org.xzh.dormTest.util.PageModel;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl();
@@ -79,7 +80,9 @@ public class UserServiceImpl implements UserService {
 		userDao.saveStudent(user);
 	}
 	@Override
-	public List<User> findStudent(String dormBuildId, String searchType, String keyword, User user) {
+	public List<User> findStudent(String dormBuildId, String searchType, String keyword,
+			User user, PageModel pageModel) {
+		
 		StringBuffer  sql = new StringBuffer();
 		//不管当前用户角色是怎么样，查询的都是学生，所有role_id=2
 		sql.append("SELECT user.*,build.name buildName,build.*  FROM tb_user user " + 
@@ -126,6 +129,7 @@ public class UserServiceImpl implements UserService {
 			sql.append(")");
 		}
 		
+		sql.append(" limit "+pageModel.getStartNum()+" , "+pageModel.getPageSize());
 		System.out.println("sql:"+sql);
 		
 		List<User>  students = userDao.findStudent(sql.toString());

@@ -16,6 +16,7 @@ import org.xzh.dormTest.service.DormBuildService;
 import org.xzh.dormTest.service.DormBuildServiceImpl;
 import org.xzh.dormTest.service.UserService;
 import org.xzh.dormTest.service.UserServiceImpl;
+import org.xzh.dormTest.util.PageModel;
 /**
  * Servlet implementation class StudentServlet
  */
@@ -64,7 +65,11 @@ public class StudentServlet extends HttpServlet {
 			String searchType = request.getParameter("searchType");
 			String keyword = request.getParameter("keyword");
 			System.out.println("dormBuildId:"+dormBuildId+"  searchType:"+searchType+"  keyword:"+keyword);
-			List<User> students = userService.findStudent(dormBuildId,searchType,keyword,user);
+			
+			//默认查询第一页，需两个参数，当前页码pageIndex，每页展示的条数  
+			PageModel pageModel = new PageModel();
+			
+			List<User> students = userService.findStudent(dormBuildId,searchType,keyword,user,pageModel);
 			
 			request.setAttribute("dormBuildId", dormBuildId);
 			request.setAttribute("searchType", searchType);

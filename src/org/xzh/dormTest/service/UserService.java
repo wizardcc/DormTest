@@ -3,6 +3,7 @@ package org.xzh.dormTest.service;
 import java.util.List;
 
 import org.xzh.dormTest.bean.User;
+import org.xzh.dormTest.util.PageModel;
 
 public interface UserService {
 
@@ -20,6 +21,6 @@ public interface UserService {
 
 	void saveStudent(User user);
 
-	List<User> findStudent(String dormBuildId, String searchType, String keyword, User user);
+	List<User> findStudent(String dormBuildId, String searchType, String keyword, User user, PageModel pageModel);
 
 }
