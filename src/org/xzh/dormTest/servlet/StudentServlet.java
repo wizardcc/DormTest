@@ -47,6 +47,17 @@ public class StudentServlet extends HttpServlet {
 		DormBuildService buildService = new DormBuildServiceImpl();
 		UserService userService = new UserServiceImpl();
 		
+		List<DormBuild>  builds = new ArrayList<DormBuild>();
+		if(roleId.equals(0)) {
+			//如当前用户是超级管理员，他能将学生添加到所有的宿舍楼,查询所有宿舍楼
+			builds = buildService.findAll();
+		}else if(roleId.equals(1)) {
+			//如当前用户 为宿舍管理员，他只能添加学生到其管理的宿舍楼
+			builds =  buildService.findByUserId(user.getId());
+		}
+		System.out.println("builds:"+builds);
+		request.setAttribute("builds", builds);
+		
 		if(action != null & action.equals("list")) {
 			//查询学生在右侧展示
 			
@@ -59,16 +70,6 @@ public class StudentServlet extends HttpServlet {
 			//根据用户角色查询宿舍楼进行添加学生，
 			//如当前用户 为宿舍管理员，他只能添加学生到其管理的宿舍楼
 			
-			List<DormBuild>  builds = new ArrayList<DormBuild>();
-			if(roleId.equals(0)) {
-				//如当前用户是超级管理员，他能将学生添加到所有的宿舍楼,查询所有宿舍楼
-				builds = buildService.findAll();
-			}else if(roleId.equals(1)) {
-				//如当前用户 为宿舍管理员，他只能添加学生到其管理的宿舍楼
-				builds =  buildService.findByUserId(user.getId());
-			}
-			System.out.println("builds:"+builds);
-			request.setAttribute("builds", builds);
 			
 			//跳转到学生的添加页面
 			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
