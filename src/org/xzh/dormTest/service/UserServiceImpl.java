@@ -68,5 +68,15 @@ public class UserServiceImpl implements UserService {
 	public void updateManager(User user) {
 		userDao.updateManager(user);
 	}
+	@Override
+	public User findByStuCode(String stuCode) {
+		// TODO Auto-generated method stub
+		return userDao.findByStuCode(stuCode);
+	}
+	@Override
+	public void saveStudent(User user) {
+		// TODO Auto-generated method stub
+		userDao.saveStudent(user);
+	}
 
 }

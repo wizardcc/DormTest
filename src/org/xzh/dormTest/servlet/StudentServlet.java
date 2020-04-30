@@ -37,15 +37,20 @@ public class StudentServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("=========student.action=============");
 		
+		//解决传递过来的中文乱码问题
+		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
 		//获取当前登录的用户
 		User user = (User) request.getSession().getAttribute("session_user");
 		Integer roleId = user.getRoleId();
 		
 		DormBuildService buildService = new DormBuildServiceImpl();
+		UserService userService = new UserServiceImpl();
 		
 		if(action != null & action.equals("list")) {
 			//查询学生在右侧展示
+			
+			
 			
 			request.setAttribute("mainRight", "/WEB-INF/jsp/studentList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
@@ -68,6 +73,44 @@ public class StudentServlet extends HttpServlet {
 			//跳转到学生的添加页面
 			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		
+		}else if(action != null & action.equals("save")) {
+			//保存学生
+			String stuCode = request.getParameter("stuCode");
+			String name = request.getParameter("name");
+			String sex = request.getParameter("sex");
+			String tel = request.getParameter("tel");
+			String passWord = request.getParameter("passWord");
+			String  dormBuildId= request.getParameter("dormBuildId");
+			String dormCode = request.getParameter("dormCode");
+			System.out.println("stuCode:"+stuCode+"  name:"+name+"   sex:"+sex+
+					"  tel:"+tel+" passWord:"+passWord+" dormBuildId:"+dormBuildId+
+					"  dormCode:"+dormCode);
+			
+			User user2 = new User();
+			user2.setStuCode(stuCode);
+			user2.setSex(sex);
+			user2.setTel(tel);
+			user2.setName(name);
+			user2.setPassWord(passWord);
+			user2.setDormBuildId(Integer.parseInt(dormBuildId));
+			user2.setDormCode(dormCode);
+			user2.setRoleId(2);
+			user2.setCreateUserId(user.getId());
+			
+			//在保存之前，查询数据库是否已经存在当前学号的学生，如已存在，则跳转到添加页面
+			//未存在，则保存
+			User student = userService.findByStuCode(stuCode);
+			if(student != null) {
+				//在保存之前，查询数据库是否已经存在当前学号的学生，如已存在，则跳转到添加页面
+				//重定向方式不会自动拼接项目名，需要自己写一下
+				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=preAdd");
+				
+			}else {
+				userService.saveStudent(user2);
+				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+			}
+			
 		}
 	}
 

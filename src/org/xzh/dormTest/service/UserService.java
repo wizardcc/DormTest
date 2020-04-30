@@ -16,4 +16,8 @@ public interface UserService {
 
 	void updateManager(User user);
 
+	User findByStuCode(String stuCode);
+
+	void saveStudent(User user);
+
 }
