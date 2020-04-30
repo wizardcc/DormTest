@@ -9,7 +9,34 @@
 		}
 	}
 	
-	
+	//文档加载完成后
+	window.onload = function(){
+		//获取用户选中的宿舍楼id
+		var dormBuildId = "${dormBuildId}";
+		
+		//获取宿舍楼select标签
+		var dormBuildIdSelect = document.getElementById("dormBuildId");
+		//获取select标签中所有的option标签
+		var options = dormBuildIdSelect.options;
+		//遍历宿舍楼的所有option标签，如果option标签中的值等于用户选中的值，则该option被选中
+		$.each(options,function(i,option){
+			$(option).attr("selected",option.value == dormBuildId);
+		})
+		
+		
+		//获取用户选中的查询类型
+		var searchType = "${searchType}";
+
+		//获取搜索类型select标签
+		var searchTypeSelect = document.getElementById("searchType");
+		//获取select标签中所有的option标签
+		var options2 = searchTypeSelect.options;
+		//遍历搜索类型的所有option标签，如果option标签中的值等于用户选中的值，则该option被选中
+		$.each(options2,function(i,option){
+			$(option).attr("selected",option.value == searchType);
+		});
+		
+	}
 	
 	$(document).ready(function(){
 		$("#student").addClass("active");
@@ -47,7 +74,7 @@
 						<option value="sex">性别</option>
 						<option value="tel">电话号码</option>
 					</select>
-					&nbsp;<input id="keyword" name="keyword" value="" type="text"  style="width:120px;height: 30px;" class="input-medium search-query">
+					&nbsp;<input id="keyword" name="keyword" value="${keyword}" type="text"  style="width:120px;height: 30px;" class="input-medium search-query">
 					&nbsp;<button type="submit" class="btn btn-info" onkeydown="if(event.keyCode==13) myForm.submit()">搜索</button>
 				</span>
 		</form>
