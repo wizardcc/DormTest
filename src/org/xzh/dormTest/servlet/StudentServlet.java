@@ -60,9 +60,13 @@ public class StudentServlet extends HttpServlet {
 		
 		if(action != null & action.equals("list")) {
 			//查询学生在右侧展示
+			String dormBuildId = request.getParameter("dormBuildId");
+			String searchType = request.getParameter("searchType");
+			String keyword = request.getParameter("keyword");
 			
+			List<User> students = userService.findStudent(dormBuildId,searchType,keyword,user);
 			
-			
+			request.setAttribute("students", students);
 			request.setAttribute("mainRight", "/WEB-INF/jsp/studentList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			

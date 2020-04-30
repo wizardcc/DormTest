@@ -22,4 +22,6 @@ public interface UserDao {
 
 	void saveStudent(User user);
 
+	List<User> findStudent(String sql);
+
 }

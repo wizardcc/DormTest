@@ -215,7 +215,7 @@ public class DormBuildDaoImpl implements DormBuildDao {
 			ConnectionFactory.close(connection, preparedStatement, null);
 		}
 	}
-
+	//根据用户id，查询其管理的所有宿舍楼
 	@Override
 	public List<DormBuild> findByUserId(Integer id) {
 		//① 获取连接（数据库地址  用户名 密码）

@@ -330,4 +330,47 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public List<User> findStudent(String sql) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet  rs = null;
+		try {
+			//③ 获取集装箱或者说是车
+			 preparedStatement = connection.prepareStatement(sql);
+			
+			//④执行SQL,获取执行后的结果,查询的结果封装在ResultSet
+			  rs = preparedStatement.executeQuery();
+			
+			//因为查询出来的结果包括表头信息，所以要指针下移一行，看是否有查询出来的数据
+			//如有数据，就进入循环体，封装该行数据
+			  List<User> users = new ArrayList<User>();
+			while (rs.next()) {
+				User user = new User();
+				//每一行的数据封装在一个实体bean中，根据字段名获取字段值，注意该字段是什么类型，就get什么类型
+				user.setId(rs.getInt("id"));
+				user.setCreateUserId(rs.getInt("create_user_id"));
+				user.setDisabled(rs.getInt("disabled"));
+				user.setName(rs.getString("name"));
+				user.setPassWord(rs.getString("passWord"));
+				user.setRoleId(rs.getInt("role_id"));
+				user.setSex(rs.getString("sex"));
+				user.setStuCode(rs.getString("stu_code"));
+				user.setTel(rs.getString("tel"));
+				user.setDormCode(rs.getString("dorm_code"));
+				user.setDormBuildId(rs.getInt("dormBuildId"));
+				
+				users.add(user);
+			}
+			
+			return users;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, rs);
+		}
+		return null;
+	}
+
 }

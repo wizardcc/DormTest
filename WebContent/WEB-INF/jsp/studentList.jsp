@@ -43,7 +43,7 @@
 					<select id="searchType" name="searchType" style="width: 80px;">
 						<option value="name">姓名</option>
 						<option value="stuCode">学号</option>
-						<option value="tel">宿舍编号</option>
+						<option value="dormCode">宿舍编号</option>
 						<option value="sex">性别</option>
 						<option value="tel">电话号码</option>
 					</select>
@@ -65,22 +65,26 @@
 				</tr>
 				</thead>
 				<tbody>
+					<c:forEach items="${students}" var="student">
 						<tr>
-							<td>12321}</td>
-							<td>张三</td>
-							<td>男</td>
-							<td>1号楼</td>
-							<td>1-208</td>
-							<td>15654678986</td>
+							<td>${student.stuCode}</td>
+							<td>${student.name}</td>
+							<td>${student.sex}</td>
+							<td>${student.dormBuild.name}</td>
+							<td>${student.dormCode}</td>
+							<td>${student.tel}</td>
 							<td>
-								<button class="btn btn-mini btn-info" type="button" onclick="javascript:window.location='student.action?action=preUpdate&id=1'">修改</button>&nbsp;
-								
-									<button class="btn btn-mini btn-danger" type="button" onclick="studentDelete(1,1)">删除</button>
-								
-									<button class="btn btn-mini btn-danger" type="button" onclick="javascript:window.location='student.action?action=deleteOrActive&id=1&disabled=0'">激活</button>
-								
+								<button class="btn btn-mini btn-info" type="button" onclick="javascript:window.location='student.action?action=preUpdate&id=${student.id}'">修改</button>&nbsp;
+									<c:if test="${student.disabled == 0}">
+										<button class="btn btn-mini btn-danger" type="button" onclick="studentDelete(${student.id},1)">删除</button>
+									</c:if>
+									
+									<c:if test="${student.disabled == 1}">
+										<button class="btn btn-mini btn-danger" type="button" onclick="studentDelete(${student.id},0)">激活</button>
+									</c:if>
 							</td>
 						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>

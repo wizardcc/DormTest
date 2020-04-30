@@ -20,4 +20,6 @@ public interface UserService {
 
 	void saveStudent(User user);
 
+	List<User> findStudent(String dormBuildId, String searchType, String keyword, User user);
+
 }
