@@ -82,7 +82,9 @@ public class UserServiceImpl implements UserService {
 	public List<User> findStudent(String dormBuildId, String searchType, String keyword, User user) {
 		StringBuffer  sql = new StringBuffer();
 		//不管当前用户角色是怎么样，查询的都是学生，所有role_id=2
-		sql.append("SELECT * FROM tb_user  user WHERE user.role_id = 2 ");
+		sql.append("SELECT user.*,build.name buildName,build.*  FROM tb_user user " + 
+				" LEFT JOIN tb_dormbuild  build ON build.`id` = user.dormBuildId "
+				+ " where user.role_id = 2");
 		
 		if(keyword != null && !keyword.equals("") && "name".equals(searchType)) {
 			//根据名字查询

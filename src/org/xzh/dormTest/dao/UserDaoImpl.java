@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.xzh.dormTest.bean.DormBuild;
 import org.xzh.dormTest.bean.User;
 import org.xzh.dormTest.util.ConnectionFactory;
 
@@ -360,6 +361,12 @@ public class UserDaoImpl implements UserDao {
 				user.setTel(rs.getString("tel"));
 				user.setDormCode(rs.getString("dorm_code"));
 				user.setDormBuildId(rs.getInt("dormBuildId"));
+				
+				DormBuild build = new DormBuild();
+				build.setId(rs.getInt("dormBuildId"));
+				build.setName(rs.getString("buildName"));
+				build.setRemark(rs.getString("remark"));
+				user.setDormBuild(build);
 				
 				users.add(user);
 			}
