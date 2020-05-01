@@ -41,6 +41,8 @@ public class StudentServlet extends HttpServlet {
 		//解决传递过来的中文乱码问题
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
+		//获取学生id
+		String id = request.getParameter("id");
 		//获取当前登录的用户
 		User user = (User) request.getSession().getAttribute("session_user");
 		Integer roleId = user.getRoleId();
@@ -134,6 +136,15 @@ public class StudentServlet extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
 			}
 			
+		}else if(action != null & action.equals("preUpdate")) {
+			//通过学生id查找学生并保存，以便在页面展示
+			User userUpdate = userService.findById(Integer.parseInt(id));
+			System.out.println("userUpdate:"+userUpdate);
+			
+			request.setAttribute("userUpdate", userUpdate);
+			//跳转到学生管理的修改页面
+			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
+			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}
 	}
 

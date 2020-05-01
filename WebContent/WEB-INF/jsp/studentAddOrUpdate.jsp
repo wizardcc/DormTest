@@ -31,40 +31,44 @@
 </script>
 <div class="data_list">
 		<div class="data_list_title">
-				修改学生信息/
+			<c:if test="${not empty userUpdate.id}">
+				修改学生
+			</c:if>
+			<c:if test="${ empty userUpdate.id}">	
 				添加学生
+			</c:if>
 		</div>
 		<form action="student.action?action=save" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
 					<div align="center">
 						<font id="error" color="red"></font>
-						<input type="hidden" id="id"  name="id" value="" />
+						<input type="hidden" id="id"  name="id" value="${userUpdate.id}" />
 					</div>
 					<table align="center">
 						<tr>
 							<td><font color="red">*</font>学号：</td>
-							<td><input type="text" id="stuCode"  name="stuCode" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="stuCode"  name="stuCode" value="${userUpdate.stuCode}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>姓名：</td>
-							<td><input type="text" id="name"  name="name" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="name"  name="name" value="${userUpdate.name}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>性别：</td>
 							<td>
 								<select id="sex" name="sex" style="width: 90px;">
-									<option value="男">男</option>
-									<option value="女">女</option>
+									<option value="男" ${userUpdate.sex == "男 " ? 'selected' : ""}>男</option>
+									<option value="女" ${userUpdate.sex == "女" ? 'selected' : ""}>女</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>联系电话：</td>
-							<td><input type="text" id="tel"  name="tel" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="tel"  name="tel" value="${userUpdate.tel}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>密码：</td>
-							<td><input type="password" id="passWord"  name="passWord" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="password" id="passWord"  name="passWord" value="${userUpdate.passWord}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>重复密码：</td>
@@ -82,7 +86,7 @@
 						</tr>
 						<tr>
 							<td><font color="red">*</font>寝室编号：</td>
-							<td><input type="text" id="dormCode"  name="dormCode" value=""  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="dormCode"  name="dormCode" value="${userUpdate.dormCode}"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 					</table>
 					<div align="center">
