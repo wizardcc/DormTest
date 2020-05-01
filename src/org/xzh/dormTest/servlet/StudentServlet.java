@@ -184,8 +184,17 @@ public class StudentServlet extends HttpServlet {
 			User studentUpdate = userService.findById(Integer.parseInt(id));
 			studentUpdate.setDisabled(Integer.parseInt(disabled));
 			
-			userService.updateStudent(studentUpdate);
-			response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+			//判断当前登录的用户是否有修改该学生的权限，如没有跳转到学生管理的列表页；如有则跳转到修改页面
+			User  user2 = userService.findByUserIdAndManager(studentUpdate.getId(),user);
+			System.out.println("查询删除激活权限user2:"+user2);
+			if(user2 != null) {
+				//表示有修改权限
+				userService.updateStudent(studentUpdate);
+				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+			}else {
+				//表示无修改权限，跳转到学生管理的列表页
+				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+			}
 		}
 	}
 
