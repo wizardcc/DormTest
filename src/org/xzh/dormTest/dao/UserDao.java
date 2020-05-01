@@ -24,4 +24,6 @@ public interface UserDao {
 
 	List<User> findStudent(String sql);
 
+	Integer findTotalNum(String sql);
+
 }

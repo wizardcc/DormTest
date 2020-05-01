@@ -137,5 +137,59 @@ public class UserServiceImpl implements UserService {
 		
 		return students;
 	}
+	@Override
+	public Integer findTotalNum(String dormBuildId, String searchType, String keyword, User user) {
+		StringBuffer  sql = new StringBuffer();
+		//不管当前用户角色是怎么样，查询的都是学生，所有role_id=2
+		sql.append("SELECT count(*)  FROM tb_user user " + 
+				" LEFT JOIN tb_dormbuild  build ON build.`id` = user.dormBuildId "
+				+ " where user.role_id = 2");
+		
+		
+		if(keyword != null && !keyword.equals("") && "name".equals(searchType)) {
+			//根据名字查询
+			sql.append("  and  user.name like '%"+keyword.trim()+"%'");
+			
+		}else if(keyword != null && !keyword.equals("") && "stuCode".equals(searchType)) {
+			//根据学号查询
+			sql.append(" and user.stu_code = '"+keyword.trim()+"'");
+			
+		}else if(keyword != null && !keyword.equals("") && "dormCode".equals(searchType)) {
+			//根据宿舍编号查询
+			sql.append(" and user.dorm_code = '"+keyword.trim()+"'");
+			
+		}else if(keyword != null && !keyword.equals("") && "sex".equals(searchType)) {
+			//根据性别查询
+			sql.append(" and user.sex = '"+keyword.trim()+"'");
+		}
+		else if(keyword != null && !keyword.equals("") && "tel".equals(searchType)) {
+			//根据电话号码查询
+			sql.append(" and user.tel = '"+keyword.trim()+"'");
+		}
+		
+		if(dormBuildId != null && !dormBuildId.equals("")) {
+			//根据宿舍楼id查询
+			sql.append(" and user.dormBuildId = '"+dormBuildId+"'");
+		}
+		
+		//判断当前用户是否为宿舍管理员，如是则需查询其管理的所有宿舍楼id
+		if(user.getRoleId().equals(1)) {
+			//获取当前宿舍管理员管理的所有宿舍楼
+			List<DormBuild>  builds  = dormBuildDao.findByUserId(user.getId());
+			
+			sql.append(" and user.dormBuildId in (");
+			for (int i = 0; i < builds.size(); i++) {
+				sql.append(builds.get(i).getId()+",");
+			}
+			
+			//删除最后一个,
+			sql.deleteCharAt(sql.length()-1);
+			sql.append(")");
+		}
+		
+		System.out.println("sql:"+sql);
+		
+		return userDao.findTotalNum(sql.toString());
+	}
 
 }

@@ -380,4 +380,30 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
+	@Override
+	public Integer findTotalNum(String sql) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet  rs = null;
+		try {
+			//② 准备SQL语句
+			//③ 获取集装箱或者说是车
+			 preparedStatement = connection.prepareStatement(sql);
+			
+			
+			//④执行SQL,获取执行后的结果,查询的结果封装在ResultSet
+			  rs = preparedStatement.executeQuery();
+			
+			rs.next();
+			return rs.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, rs);
+		}
+		return null;
+	}
+
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="xzhPager" uri="xzh-page-tag" %>
 <script type="text/javascript">
 
 	function studentDelete(studentId,disabled) {
@@ -116,4 +117,13 @@
 			</table>
 		</div>
 		<div align="center"><font color="red"></font></div>
+		<div style="text-align: center;">
+			<!--totalNum:查询出的总数据量     pageSize：每一页展示的行数    pageIndex:表示当前页面  
+				submitUrl：表示点击上一页下一页首页 尾页时发送的请求-->
+			<xzhPager:pager 
+				totalNum ="${totalNum}"
+				pageSize="3"
+				pageIndex="${pageIndex}"
+				submitUrl="${pageContext.request.contextPath}/student.action?action=list&searchType=${searchType}&keyword=${keyword}&dormBuildId=${dormBuildId}"></xzhPager:pager>
+		</div>
 </div>

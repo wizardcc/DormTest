@@ -64,13 +64,23 @@ public class StudentServlet extends HttpServlet {
 			String dormBuildId = request.getParameter("dormBuildId");
 			String searchType = request.getParameter("searchType");
 			String keyword = request.getParameter("keyword");
+			//当前要查询的页面
+			String pageIndex = request.getParameter("pageIndex");
 			System.out.println("dormBuildId:"+dormBuildId+"  searchType:"+searchType+"  keyword:"+keyword);
 			
 			//默认查询第一页，需两个参数，当前页码pageIndex，每页展示的条数  
 			PageModel pageModel = new PageModel();
-			
+			//表明要查询其他页码，不是当前要查询的页码
+			if(pageIndex != null && !pageIndex.equals("")) {
+				pageModel.setPageIndex(Integer.parseInt(pageIndex));
+			}
 			List<User> students = userService.findStudent(dormBuildId,searchType,keyword,user,pageModel);
+			//获取查询处理的总数量
+			Integer  totalNum = userService.findTotalNum(dormBuildId,searchType,keyword,user);
+			System.out.println("totalNum:"+totalNum);
 			
+			request.setAttribute("totalNum", totalNum);
+			request.setAttribute("pageIndex", pageModel.getPageIndex());
 			request.setAttribute("dormBuildId", dormBuildId);
 			request.setAttribute("searchType", searchType);
 			request.setAttribute("keyword", keyword);

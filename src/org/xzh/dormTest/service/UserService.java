@@ -23,4 +23,6 @@ public interface UserService {
 
 	List<User> findStudent(String dormBuildId, String searchType, String keyword, User user, PageModel pageModel);
 
+	Integer findTotalNum(String dormBuildId, String searchType, String keyword, User user);
+
 }
