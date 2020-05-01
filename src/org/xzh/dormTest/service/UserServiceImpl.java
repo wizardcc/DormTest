@@ -191,5 +191,9 @@ public class UserServiceImpl implements UserService {
 		
 		return userDao.findTotalNum(sql.toString());
 	}
+	@Override
+	public void updateStudent(User studentUpdate) {
+		userDao.updateStudent(studentUpdate);
+	}
 
 }

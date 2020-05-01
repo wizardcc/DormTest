@@ -25,4 +25,6 @@ public interface UserService {
 
 	Integer findTotalNum(String dormBuildId, String searchType, String keyword, User user);
 
+	void updateStudent(User studentUpdate);
+
 }

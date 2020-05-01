@@ -112,28 +112,50 @@ public class StudentServlet extends HttpServlet {
 					"  tel:"+tel+" passWord:"+passWord+" dormBuildId:"+dormBuildId+
 					"  dormCode:"+dormCode);
 			
-			User user2 = new User();
-			user2.setStuCode(stuCode);
-			user2.setSex(sex);
-			user2.setTel(tel);
-			user2.setName(name);
-			user2.setPassWord(passWord);
-			user2.setDormBuildId(Integer.parseInt(dormBuildId));
-			user2.setDormCode(dormCode);
-			user2.setRoleId(2);
-			user2.setCreateUserId(user.getId());
-			
-			//在保存之前，查询数据库是否已经存在当前学号的学生，如已存在，则跳转到添加页面
 			//未存在，则保存
 			User student = userService.findByStuCode(stuCode);
-			if(student != null) {
-				//在保存之前，查询数据库是否已经存在当前学号的学生，如已存在，则跳转到添加页面
-				//重定向方式不会自动拼接项目名，需要自己写一下
-				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=preAdd");
+			if(id != null && !id.equals("")) {
+				//更新之前，查询数据库是否已经存在当前学号的学生，如已存在，则跳转到添加页面
+				if(student != null  && !student.getId().equals(Integer.parseInt(id))) {
+					System.out.println("根据学生学号查询student:"+student);
+					//当前学号的学生已存在，请重新修改，跳转到该学生的修改页面
+					request.getRequestDispatcher("/student.action?action=preUpdate&id="+id).forward(request, response);
+				}else {
+					//数据库中不存在时才更新
+					User studentUpdate = userService.findById(Integer.parseInt(id));
+					studentUpdate.setStuCode(stuCode);
+					studentUpdate.setSex(sex);
+					studentUpdate.setTel(tel);
+					studentUpdate.setName(name);
+					studentUpdate.setPassWord(passWord);
+					studentUpdate.setDormBuildId(Integer.parseInt(dormBuildId));
+					studentUpdate.setDormCode(dormCode);
+					
+					userService.updateStudent(studentUpdate);
+					//跳转到宿舍管理的列表页面
+					response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+				}
 				
 			}else {
-				userService.saveStudent(user2);
-				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+				//保存
+				if(student != null) {
+					//在保存之前，查询数据库是否已经存在当前学号的学生，如已存在，则跳转到添加页面
+					response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=preAdd");
+					
+				}else {
+					User user2 = new User();
+					user2.setStuCode(stuCode);
+					user2.setSex(sex);
+					user2.setTel(tel);
+					user2.setName(name);
+					user2.setPassWord(passWord);
+					user2.setDormBuildId(Integer.parseInt(dormBuildId));
+					user2.setDormCode(dormCode);
+					user2.setRoleId(2);
+					user2.setCreateUserId(user.getId());
+					userService.saveStudent(user2);
+					response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+				}
 			}
 			
 		}else if(action != null & action.equals("preUpdate")) {

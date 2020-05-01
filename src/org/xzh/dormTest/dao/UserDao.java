@@ -26,4 +26,6 @@ public interface UserDao {
 
 	Integer findTotalNum(String sql);
 
+	void updateStudent(User studentUpdate);
+
 }
