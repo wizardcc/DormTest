@@ -43,6 +43,8 @@ public class StudentServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		//获取学生id
 		String id = request.getParameter("id");
+		//获取学生的disabled字段
+		String disabled = request.getParameter("disabled");
 		//获取当前登录的用户
 		User user = (User) request.getSession().getAttribute("session_user");
 		Integer roleId = user.getRoleId();
@@ -80,6 +82,7 @@ public class StudentServlet extends HttpServlet {
 			//获取查询处理的总数量
 			Integer  totalNum = userService.findTotalNum(dormBuildId,searchType,keyword,user);
 			System.out.println("totalNum:"+totalNum);
+			System.out.println("students:"+students);
 			
 			request.setAttribute("totalNum", totalNum);
 			request.setAttribute("pageIndex", pageModel.getPageIndex());
@@ -167,6 +170,13 @@ public class StudentServlet extends HttpServlet {
 			//跳转到学生管理的修改页面
 			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+		}else if(action != null & action.equals("deleteOrActive")) {
+			//删除或激活
+			User studentUpdate = userService.findById(Integer.parseInt(id));
+			studentUpdate.setDisabled(Integer.parseInt(disabled));
+			
+			userService.updateStudent(studentUpdate);
+			response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
 		}
 	}
 

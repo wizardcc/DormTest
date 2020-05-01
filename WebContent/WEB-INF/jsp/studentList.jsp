@@ -5,7 +5,7 @@
 <script type="text/javascript">
 
 	function studentDelete(studentId,disabled) {
-		if(confirm("您确定要删除这个学生吗？")) {
+		if(confirm("您确定要删除/激活这个学生吗？")) {
 			window.location="student.action?action=deleteOrActive&id="+studentId+"&disabled="+disabled;
 		}
 	}
