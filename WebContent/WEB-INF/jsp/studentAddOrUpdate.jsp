@@ -25,6 +25,20 @@
 		return true;
 	}
 	
+	//文档加载完成后
+	window.onload = function(){
+		//获取当前要修改的学生居中的宿舍楼id
+		var studentBuildId = "${userUpdate.dormBuildId}";
+		
+		var dormBuildIdSelect = document.getElementById("dormBuildId");
+		var options = dormBuildIdSelect.options;
+		
+		//遍历所有的option，如果option中的值=学生居中的宿舍楼id，则该option被选中
+		$.each(options,function(i,option){
+			$(option).attr("selected",option.value == studentBuildId);
+		})
+	}
+	
 	$(document).ready(function(){
 		$("#student").addClass("active");
 	});
