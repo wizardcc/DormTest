@@ -27,4 +27,6 @@ public interface UserService {
 
 	void updateStudent(User studentUpdate);
 
+	User findByUserIdAndManager(Integer id, User user);
+
 }

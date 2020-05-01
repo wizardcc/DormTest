@@ -28,4 +28,6 @@ public interface UserDao {
 
 	void updateStudent(User studentUpdate);
 
+	User findByUserIdAndManager(String sql);
+
 }

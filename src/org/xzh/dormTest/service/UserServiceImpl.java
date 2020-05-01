@@ -195,5 +195,26 @@ public class UserServiceImpl implements UserService {
 	public void updateStudent(User studentUpdate) {
 		userDao.updateStudent(studentUpdate);
 	}
+	@Override
+	public User findByUserIdAndManager(Integer id, User user) {
+		//进行sql语句的拼装
+		StringBuffer  sql = new StringBuffer();
+		sql.append("select * from tb_user  user where user.id ="+id);
+		
+		if(user.getRoleId() != null && user.getRoleId().equals(1)) {
+			//表示当前登录的用户角色是宿舍管理员，则要求要修改的学生必须居住在该宿舍管理员管理的宿舍楼中
+			List<DormBuild>  builds = dormBuildDao.findByUserId(user.getId());
+			
+			sql.append(" and user.dormBuildId in (");
+			for (int i = 0; i < builds.size(); i++) {
+				sql.append(builds.get(i).getId()+",");//格式：(1,2,)
+			}
+			
+			//删除最后一个,
+			sql.deleteCharAt(sql.length()-1);
+			sql.append(")");
+		}
+		return userDao.findByUserIdAndManager(sql.toString());
+	}
 
 }

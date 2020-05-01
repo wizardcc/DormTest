@@ -166,10 +166,19 @@ public class StudentServlet extends HttpServlet {
 			User userUpdate = userService.findById(Integer.parseInt(id));
 			System.out.println("userUpdate:"+userUpdate);
 			
-			request.setAttribute("userUpdate", userUpdate);
-			//跳转到学生管理的修改页面
-			request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
-			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			//判断当前登录的用户是否有修改该学生的权限，如没有跳转到学生管理的列表页；如有则跳转到修改页面
+			User  user2 = userService.findByUserIdAndManager(userUpdate.getId(),user);
+			System.out.println("查询管理权限user2:"+user2);
+			if(user2 != null) {
+				//表示有修改权限
+				request.setAttribute("userUpdate", userUpdate);
+				//跳转到学生管理的修改页面
+				request.setAttribute("mainRight", "/WEB-INF/jsp/studentAddOrUpdate.jsp");
+				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			}else {
+				//表示无修改权限，跳转到学生管理的列表页
+				response.sendRedirect(getServletContext().getContextPath()+"/student.action?action=list");
+			}
 		}else if(action != null & action.equals("deleteOrActive")) {
 			//删除或激活
 			User studentUpdate = userService.findById(Integer.parseInt(id));
