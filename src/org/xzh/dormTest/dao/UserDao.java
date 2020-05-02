@@ -30,4 +30,6 @@ public interface UserDao {
 
 	User findByUserIdAndManager(String sql);
 
+	User findStuCodeAndManager(String sql);
+
 }

@@ -29,4 +29,6 @@ public interface UserService {
 
 	User findByUserIdAndManager(Integer id, User user);
 
+	User findStuCodeAndManager(String stuCode, User userCurr);
+
 }

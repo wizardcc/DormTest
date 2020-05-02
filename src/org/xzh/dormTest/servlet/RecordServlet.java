@@ -80,7 +80,13 @@ public class RecordServlet extends HttpServlet {
 			if(user != null) {
 				//说明当前登录的用户有添加该学号学生缺勤记录的权限
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				Date date2 = dateFormat.parse(date);
+				Date date2 = null;
+				try {
+					date2 = dateFormat.parse(date);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				Record record = new Record();
 				record.setStudentId(user.getId());
@@ -89,6 +95,11 @@ public class RecordServlet extends HttpServlet {
 				record.setRemark(remark);
 				//保存数据到数据库
 				recordService.save(record);
+				
+				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+			}else {
+				//无修改权限
+				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
 			}
 		}
 	}

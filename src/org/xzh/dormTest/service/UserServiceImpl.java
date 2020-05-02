@@ -216,5 +216,35 @@ public class UserServiceImpl implements UserService {
 		}
 		return userDao.findByUserIdAndManager(sql.toString());
 	}
+	@Override
+	public User findStuCodeAndManager(String stuCode, User userCurr) {
+		StringBuffer sql = new StringBuffer("SELECT * FROM tb_user USER WHERE user.role_id =2 and  user.`stu_code`="+stuCode);
+		
+		//获取当前登录用户的角色
+		Integer roleId = userCurr.getRoleId();
+		if(roleId != null && roleId.equals(1)) {
+			//表示当前用户是宿舍管理员，通过宿舍管理员的id 获取其管理的宿舍楼
+			List<DormBuild>  builds = dormBuildDao.findByUserId(userCurr.getId());
+			
+			sql.append(" and USER.dormBuildId in (");
+			for (int i = 0; i < builds.size(); i++) {
+				sql.append(builds.get(i).getId()+",");//(1,2,)
+			}
+			
+			//删除最后一个,
+			sql.deleteCharAt(sql.length()-1);
+			sql.append(")");
+			
+			return userDao.findStuCodeAndManager(sql.toString());
+		}
+		
+		if(roleId != null && roleId.equals(2)) {
+			//当前登录用户是学生，没有添加任何学生缺勤记录的权限
+			return null;
+		}
+		
+		//表示当前用户是超级管理员，只有用户输入的学号在数据库真实存在，就可以添加任意学生的缺勤记录
+		return  userDao.findStuCodeAndManager(sql.toString());
+	}
 
 }
