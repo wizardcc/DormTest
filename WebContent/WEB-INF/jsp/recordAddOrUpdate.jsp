@@ -16,7 +16,18 @@ $(document).ready(function(){
 	
 });
 
-
+function checkForm(){
+	//检查用户是否输入学号和缺勤日期
+	var stuCode=document.getElementById("stuCode").value;
+	var date=document.getElementById("date").value;
+	
+	if(stuCode==null||stuCode=="" || date == null|| date ==""){
+		document.getElementById("error").innerHTML="学号和缺勤日期不能为空！";
+		return false;
+	}
+	return true;
+	
+}
 	
 	$(document).ready(function(){
 		$("#record").addClass("active");
