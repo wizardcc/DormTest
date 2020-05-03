@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.form_date').datetimepicker({
@@ -36,7 +37,9 @@ $(document).ready(function(){
 			缺勤记录
 		</div>
 		<form name="myForm" onsubmit="return checkForm()" action="record.action?action=list"  class="form-search" method="post"  style="padding-bottom: 0px">
+				<c:if test="${session_user.roleId != 2 }">
 					<button class="btn btn-success" type="button" style="margin-right: 50px;" onclick="javascript:window.location='record.action?action=preAdd'">添加</button>
+				</c:if>
 				<span class="data_search">
 					<span class="controls input-append date form_date" style="margin-right: 10px" data-date-format="yyyy-mm-dd">
                     	<input id="startDate" name="startDate" style="width:120px;height: 30px;" placeholder="起始日期" type="text" value="" readonly >
@@ -81,7 +84,9 @@ $(document).ready(function(){
 					<th>宿舍楼</th>
 					<th>寝室</th>
 					<th>备注</th>
-					<th>操作</th>
+					<c:if test="${session_user.roleId != 2 }">
+						<th>操作</th>
+					</c:if>
 					</tr>
 				</thead>
 				<tbody>
@@ -93,13 +98,17 @@ $(document).ready(function(){
 						<td>1号楼</td>
 						<td>1-201</td>
 						<td>无</td>
-					
-							<td>
-								<button class="btn btn-mini btn-success" type="button" onclick="javascript:window.location='record.action?action=preUpdate&id=${record.id }'">修改</button>
-									<button class="btn btn-mini btn-danger" type="button" onclick="deleteOrAcive(1,1)">删除</button>
-								
-									<button class="btn btn-mini btn-danger" type="button" onclick="deleteOrAcive(1,0)">激活</button>
-							</td>
+							<c:if test="${session_user.roleId != 2 }">
+								<td>
+									<button class="btn btn-mini btn-success" type="button" onclick="javascript:window.location='record.action?action=preUpdate&id=${record.id }'">修改</button>
+									<c:if test="${record.disabled ==0}">
+										<button class="btn btn-mini btn-danger" type="button" onclick="deleteOrAcive(${record.id },1)">删除</button>
+									</c:if>
+									<c:if test="${record.disabled ==1}">
+										<button class="btn btn-mini btn-danger" type="button" onclick="deleteOrAcive(${record.id },0)">激活</button>
+									</c:if>
+								</td>
+							</c:if>
 					</tr>
 				</tbody>
 			</table>
