@@ -45,6 +45,8 @@ public class RecordServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("========record.action========");
 		
+		//在tomcat8.0中，如果是post请求，传递过来的中文可能会出现乱码问题 
+		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
 		System.out.println("action:"+action);
 		

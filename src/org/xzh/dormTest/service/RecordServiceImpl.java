@@ -107,11 +107,13 @@ public class RecordServiceImpl implements RecordService {
 		
 		if(startDate != null && !startDate.equals("")) {
 			//查询处理的考勤记录时间要大于查询的开始时间
+			//拼接时要记得加单引号
 			sql.append(" and record.date >= '"+startDate+"'");
 		}
 		
 		if(endDate != null && !endDate.equals("")) {
 			//查询处理的考勤记录时间要小于查询的结束时间
+			//拼接时要记得加单引号
 			sql.append(" and record.date <= '"+endDate+"'");
 		}
 		
