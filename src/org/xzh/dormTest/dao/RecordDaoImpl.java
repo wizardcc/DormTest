@@ -63,4 +63,56 @@ public class RecordDaoImpl implements RecordDao {
 		return null;
 	}
 
+	@Override
+	public List<Record> find(String sql) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement =null;
+		try {
+			//③ 获取集装箱或者说是车
+			 preparedStatement = connection.prepareStatement(sql);
+			
+			//④执行SQL,查询，将查询结果放在resultset里面
+			ResultSet rs =  preparedStatement.executeQuery();
+			List<Record> records = new ArrayList<Record>();
+			
+			while (rs.next()) {
+				//将查询结果封装在record里面
+				Record record = new Record();
+				record.setId(rs.getInt("recordId"));
+				record.setDate(rs.getTimestamp("date"));
+				record.setRemark(rs.getString("remark"));
+				record.setDisabled(rs.getInt("recordDisabled"));
+				
+				User user = new User();
+				user.setId(rs.getInt("student_id"));
+				user.setCreateUserId(rs.getInt("create_user_id"));
+				user.setDormBuildId(rs.getInt("dormBuildId"));
+				user.setDormCode(rs.getString("dorm_Code"));
+				user.setName(rs.getString("name"));
+				user.setPassWord(rs.getString("passWord"));
+				user.setRoleId(rs.getInt("role_id"));
+				user.setSex(rs.getString("sex"));
+				user.setStuCode(rs.getString("stu_code"));
+				user.setTel(rs.getString("tel"));
+			
+				DormBuild dormBuild = new DormBuild();
+				dormBuild.setName(rs.getString("buildName"));
+				
+				user.setDormBuild(dormBuild);
+				record.setUser(user);
+				
+				records.add(record);
+				
+			}
+			return records;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, null);
+		}
+		return null;
+	}
+
 }

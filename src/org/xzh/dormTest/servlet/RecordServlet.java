@@ -85,9 +85,9 @@ public class RecordServlet extends HttpServlet {
 			}
 			
 			//分页查询考勤记录
-			/*List<Record> records = recordService.findRecords(startDate,endDate,dormBuildId,
+			List<Record> records = recordService.findRecords(startDate,endDate,dormBuildId,
 					searchType,keyword,userCurr,pageModel);
-			System.out.println("records:"+records);*/
+			System.out.println("records:"+records);
 			
 			//获取查询结果总数
 			Integer totalNum = recordService.getToTalNum(startDate,endDate,dormBuildId,
@@ -101,7 +101,7 @@ public class RecordServlet extends HttpServlet {
 			request.setAttribute("searchType", searchType);
 			request.setAttribute("keyword", keyword);
 			request.setAttribute("pageIndex", pageModel.getPageIndex());
-			//request.setAttribute("records", records);
+			request.setAttribute("records", records);
 			request.setAttribute("mainRight", "/WEB-INF/jsp/recordList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}else if(action != null && action.equals("preAdd")) {

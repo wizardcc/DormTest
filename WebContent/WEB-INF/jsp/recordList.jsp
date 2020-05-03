@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="xzhPager" uri="xzh-page-tag" %>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -89,14 +90,16 @@ $(document).ready(function(){
 					</tr>
 				</thead>
 				<tbody>
+					<c:forEach items="${records}"  var="record">
 					<tr>
-						<td>2019-10-01</td>
-						<td>412321</td>
-						<td>张三</td>
-						<td>男</td>
-						<td>1号楼</td>
-						<td>1-201</td>
-						<td>无</td>
+						<!-- 格式化标签 -->
+						<td><fmt:formatDate value="${record.date}"  pattern="yyyy-MM-dd"/> </td>
+						<td>${record.user.stuCode}</td>
+						<td>${record.user.name}</td>
+						<td>${record.user.sex}</td>
+						<td>${record.user.dormBuild.name}</td>
+						<td>${record.user.dormCode}</td>
+						<td>${record.remark}</td>
 							<c:if test="${session_user.roleId != 2 }">
 								<td>
 									<button class="btn btn-mini btn-success" type="button" onclick="javascript:window.location='record.action?action=preUpdate&id=${record.id }'">修改</button>
@@ -109,6 +112,7 @@ $(document).ready(function(){
 								</td>
 							</c:if>
 					</tr>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
