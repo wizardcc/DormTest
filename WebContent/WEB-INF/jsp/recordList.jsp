@@ -54,7 +54,9 @@ $(document).ready(function(){
                		<c:if test="${session_user.roleId != 2 }">
 						<select id="dormBuildId" name="dormBuildId" style="width: 100px;">
 							<option value="">所有楼栋</option>
-							<option value="1">1号楼</option>
+							<c:forEach items="${builds}" var="build">
+								<option value="${build.id}">${build.name}</option>
+							</c:forEach>
 						</select>
 					</c:if>
 						<select id="sex" name="sex" style="width: 90px;">

@@ -53,8 +53,21 @@ public class RecordServlet extends HttpServlet {
 		
 		UserService userService = new UserServiceImpl();
 		RecordService recordService = new RecordServiceImpl();
+		DormBuildService buildService = new DormBuildServiceImpl();
+		
 		if(action != null & action.equals("list")) {
 			//查询缺勤记录并展示
+			Integer roleId = userCurr.getRoleId();
+			List<DormBuild>  builds = new ArrayList<DormBuild>();
+			if(roleId.equals(0)) {
+				//如当前用户是超级管理员，他能将学生添加到所有的宿舍楼,查询所有宿舍楼
+				builds = buildService.findAll();
+			}else if(roleId.equals(1)) {
+				//如当前用户 为宿舍管理员，他只能添加学生到其管理的宿舍楼
+				builds =  buildService.findByUserId(userCurr.getId());
+			}
+			System.out.println("builds:"+builds);
+			request.setAttribute("builds", builds);
 			
 			
 			
