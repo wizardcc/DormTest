@@ -40,7 +40,7 @@ function checkForm(){
 		<form action="record.action?action=save" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
 				<div align="center">
-					<font id="error" color="red"></font>
+					<font id="error" color="red">${error}</font>
 				</div>
 				<input type="hidden" id="id" name="id" value=""/>
 				<table align="center">

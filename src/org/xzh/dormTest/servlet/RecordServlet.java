@@ -98,8 +98,10 @@ public class RecordServlet extends HttpServlet {
 				
 				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
 			}else {
-				//无修改权限
-				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+				//没有添加的权限,跳转到添加页面
+				request.setAttribute("error", "您没有添加该学号学生缺勤记录的权限！");
+				request.setAttribute("mainRight", "/WEB-INF/jsp/recordAddOrUpdate.jsp");
+				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			}
 		}
 	}
