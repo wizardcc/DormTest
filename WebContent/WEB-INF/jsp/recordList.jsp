@@ -51,11 +51,12 @@ $(document).ready(function(){
                     	<span class="add-on"><i class="icon-remove"></i></span>
 						<span class="add-on"><i class="icon-th"></i></span>
                		</span>
-               		
+               		<c:if test="${session_user.roleId != 2 }">
 						<select id="dormBuildId" name="dormBuildId" style="width: 100px;">
 							<option value="">所有楼栋</option>
 							<option value="1">1号楼</option>
 						</select>
+					</c:if>
 						<select id="sex" name="sex" style="width: 90px;">
 							<option value="">全部</option>
 							<option value="男">男</option>
