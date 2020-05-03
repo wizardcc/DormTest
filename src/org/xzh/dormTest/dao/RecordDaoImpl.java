@@ -41,4 +41,26 @@ public class RecordDaoImpl implements RecordDao {
 		}
 	}
 
+	@Override
+	public Integer getTotalNum(String sql) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement =null;
+		try {
+			//③ 获取集装箱或者说是车
+			 preparedStatement = connection.prepareStatement(sql);
+			
+			//④执行SQL,查询
+			ResultSet rs =  preparedStatement.executeQuery();
+			 rs.next();
+			Integer  count =  rs.getInt(1);
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, null);
+		}
+		return null;
+	}
+
 }

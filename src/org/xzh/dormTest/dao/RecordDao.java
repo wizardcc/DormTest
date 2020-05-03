@@ -6,4 +6,6 @@ public interface RecordDao {
 
 	void save(Record record);
 
+	Integer getTotalNum(String sql);
+
 }

@@ -69,9 +69,39 @@ public class RecordServlet extends HttpServlet {
 			System.out.println("builds:"+builds);
 			request.setAttribute("builds", builds);
 			
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
+			String dormBuildId = request.getParameter("dormBuildId");
+			String searchType = request.getParameter("searchType");
+			String keyword = request.getParameter("keyword");
+			String pageIndex = request.getParameter("pageIndex");
+			System.out.println("startDate:"+startDate+" endDate:"+endDate+" dormBuildId:"+dormBuildId+
+					" searchType:"+searchType+" keyword:"+keyword+"  pageIndex:"+pageIndex);
 			
+			//默认查询第一页，需两个参数，当前页码pageIndex，每页展示的条数  
+			PageModel pageModel = new PageModel();
+			if(pageIndex != null && !pageIndex.equals("")) {
+				pageModel.setPageIndex(Integer.parseInt(pageIndex));
+			}
 			
+			//分页查询考勤记录
+			/*List<Record> records = recordService.findRecords(startDate,endDate,dormBuildId,
+					searchType,keyword,userCurr,pageModel);
+			System.out.println("records:"+records);*/
 			
+			//获取查询结果总数
+			Integer totalNum = recordService.getToTalNum(startDate,endDate,dormBuildId,
+					searchType,keyword,userCurr);
+			System.out.println("totalNum:"+totalNum);
+			
+			request.setAttribute("totalNum", totalNum);
+			request.setAttribute("startDate", startDate);
+			request.setAttribute("endDate", endDate);
+			request.setAttribute("dormBuildId", dormBuildId);
+			request.setAttribute("searchType", searchType);
+			request.setAttribute("keyword", keyword);
+			request.setAttribute("pageIndex", pageModel.getPageIndex());
+			//request.setAttribute("records", records);
 			request.setAttribute("mainRight", "/WEB-INF/jsp/recordList.jsp");
 			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 		}else if(action != null && action.equals("preAdd")) {

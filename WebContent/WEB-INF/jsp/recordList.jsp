@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="xzhPager" uri="xzh-page-tag" %>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.form_date').datetimepicker({
@@ -36,7 +37,7 @@ $(document).ready(function(){
 		<div class="data_list_title">
 			缺勤记录
 		</div>
-		<form name="myForm" onsubmit="return checkForm()" action="record.action?action=list"  class="form-search" method="post"  style="padding-bottom: 0px">
+		<form name="myForm" action="record.action?action=list"  class="form-search" method="post"  style="padding-bottom: 0px">
 				<c:if test="${session_user.roleId != 2 }">
 					<button class="btn btn-success" type="button" style="margin-right: 50px;" onclick="javascript:window.location='record.action?action=preAdd'">添加</button>
 				</c:if>
@@ -59,16 +60,11 @@ $(document).ready(function(){
 							</c:forEach>
 						</select>
 					</c:if>
-						<select id="sex" name="sex" style="width: 90px;">
-							<option value="">全部</option>
-							<option value="男">男</option>
-							<option value="女">女</option>
-						</select>
-					
 						<select id="searchType" name="searchType" style="width: 80px;">
 							<option value="name">姓名</option>
 							<option value="stuCode">学号</option>
 							<option value="dormCode">宿舍编号</option>
+							<option value="sex">性别</option>
 						</select>
 						&nbsp;<input id="keyword" name="keyword" value="" type="text"  style="width:120px;height: 30px;" class="input-medium search-query" >
 					
@@ -117,4 +113,13 @@ $(document).ready(function(){
 			</table>
 		</div>
 		<div align="center"><font color="red"></font></div>
+		<div style="text-align: center;">
+			<!--totalNum:查询出的总数据量     pageSize：每一页展示的行数    pageIndex:表示当前页面  
+				submitUrl：表示点击上一页下一页首页 尾页时发送的请求-->
+			<xzhPager:pager 
+				totalNum ="${totalNum}"
+				pageSize="3"
+				pageIndex="${pageIndex}"
+				submitUrl="${pageContext.request.contextPath}/record.action?action=list&searchType=${searchType}&keyword=${keyword}&dormBuildId=${dormBuildId}&startDate=${startDate}&endDate=${endDate}"></xzhPager:pager>
+		</div>
 </div>
