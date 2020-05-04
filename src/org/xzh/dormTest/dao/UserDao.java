@@ -32,4 +32,6 @@ public interface UserDao {
 
 	User findStuCodeAndManager(String sql);
 
+	void updatePassWord(User userCur);
+
 }

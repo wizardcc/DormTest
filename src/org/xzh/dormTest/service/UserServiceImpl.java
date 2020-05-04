@@ -246,5 +246,9 @@ public class UserServiceImpl implements UserService {
 		//表示当前用户是超级管理员，只有用户输入的学号在数据库真实存在，就可以添加任意学生的缺勤记录
 		return  userDao.findStuCodeAndManager(sql.toString());
 	}
+	@Override
+	public void updatePassWord(User userCur) {
+		userDao.updatePassWord(userCur);
+	}
 
 }

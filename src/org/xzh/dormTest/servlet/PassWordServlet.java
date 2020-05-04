@@ -67,7 +67,7 @@ public class PassWordServlet extends HttpServlet {
 			//修改密码
 			String newPassword = request.getParameter("newPassword");
 			userCur.setPassWord(newPassword);
-			//userService.updatePassWord(userCur);
+			userService.updatePassWord(userCur);
 			
 			System.out.println("修改密码userCur:"+userCur);
 			

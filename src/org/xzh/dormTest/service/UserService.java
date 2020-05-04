@@ -31,4 +31,6 @@ public interface UserService {
 
 	User findStuCodeAndManager(String stuCode, User userCurr);
 
+	void updatePassWord(User userCur);
+
 }
