@@ -123,32 +123,56 @@ public class RecordServlet extends HttpServlet {
 			User user = userService.findStuCodeAndManager(stuCode,userCurr);
 			System.out.println("查询添加缺勤权限user:"+user);
 			
-			if(user != null) {
-				//说明当前登录的用户有添加该学号学生缺勤记录的权限
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				Date date2 = null;
-				try {
-					date2 = dateFormat.parse(date);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			if(id != null && !id.equals("")) {
+				//更新
+				if(user != null) {
+					//有修改权限
+					Record record = recordService.findById(Integer.parseInt(id));
+					try {
+						record.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+						record.setRemark(remark);
+						record.setStudentId(user.getId());
+						//执行更新，只需要传递record一个参数
+						recordService.update(record);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					//更新完成后跳转到列表页面，执行一个查询操作
+					response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+				}else {
+					//无修改权限，返回列表页面
+					response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
 				}
-
-				Record record = new Record();
-				record.setStudentId(user.getId());
-				record.setDate(date2);
-				record.setDisabled(0);
-				record.setRemark(remark);
-				//保存数据到数据库
-				recordService.save(record);
 				
-				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
 			}else {
-				//没有添加的权限,跳转到添加页面
-				request.setAttribute("error", "您没有添加该学号学生缺勤记录的权限！");
-				request.setAttribute("mainRight", "/WEB-INF/jsp/recordAddOrUpdate.jsp");
-				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
-			}
+				//保存
+				if(user != null) {
+					//说明当前登录的用户有添加该学号学生缺勤记录的权限
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					Date date2 = null;
+					try {
+						date2 = dateFormat.parse(date);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					Record record = new Record();
+					record.setStudentId(user.getId());
+					record.setDate(date2);
+					record.setDisabled(0);
+					record.setRemark(remark);
+					//保存数据到数据库
+					recordService.save(record);
+					
+					response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+				}else {
+					//没有添加的权限,跳转到添加页面
+					request.setAttribute("error", "您没有添加该学号学生缺勤记录的权限！");
+					request.setAttribute("mainRight", "/WEB-INF/jsp/recordAddOrUpdate.jsp");
+					request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+				}
+			}	
 		}else if(action != null && action.equals("preUpdate")) {
 			//跳转到修改页面
 			Record record = recordService.findById(Integer.parseInt(id));

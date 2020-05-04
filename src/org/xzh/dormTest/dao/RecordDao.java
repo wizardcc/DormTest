@@ -14,4 +14,6 @@ public interface RecordDao {
 
 	Record findById(int id);
 
+	void update(Record record);
+
 }

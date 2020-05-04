@@ -18,4 +18,6 @@ public interface RecordService {
 
 	Record findById(int id);
 
+	void update(Record record);
+
 }

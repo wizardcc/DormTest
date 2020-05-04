@@ -152,5 +152,10 @@ public class RecordServiceImpl implements RecordService {
 	public Record findById(int id) {
 		return recordDao.findById(id);
 	}
+	@Override
+	public void update(Record record) {
+		//无业务逻辑，直接调用dao层
+		recordDao.update(record);
+	}
 
 }
