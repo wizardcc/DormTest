@@ -189,7 +189,27 @@ public class RecordServlet extends HttpServlet {
 				request.setAttribute("mainRight", "/WEB-INF/jsp/recordAddOrUpdate.jsp");
 				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			}
+		}else if(action != null && action.equals("deleteOrAcive")) {
+			System.out.println("======删除或者激活=========");
+			//删除或者激活
+			//获取第二个参数，表示是删除还是激活
+			String disabled = request.getParameter("disabled");
 			
+			Record record = recordService.findById(Integer.parseInt(id));
+			record.setDisabled(Integer.parseInt(disabled));
+			
+			//查看用户是否有修改考勤记录的权限
+			User user = userService.findStuCodeAndManager(record.getUser().getStuCode(),userCurr);
+			System.out.println("修改权限user ："+user);
+			if(user == null) {
+				//无删除激活权限
+				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+			}else {
+				//有删除激活权限
+				recordService.update(record);
+				//跳转到缺勤记录列表页
+				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+			}
 		}
 	}
 
