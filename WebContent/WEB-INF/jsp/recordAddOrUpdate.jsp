@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.form_date').datetimepicker({
@@ -34,27 +36,32 @@ function checkForm(){
 	});
 </script>
 <div class="data_list">
-		<div class="data_list_title">修改缺勤记录
+		<div class="data_list_title">
+			<c:if test="${not empty record.id }">
+				修改缺勤记录
+			</c:if>
+			<c:if test="${ empty record.id }">	
 				添加缺勤记录
+			</c:if>
 		</div>
 		<form action="record.action?action=save" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
 				<div align="center">
 					<font id="error" color="red">${error}</font>
 				</div>
-				<input type="hidden" id="id" name="id" value=""/>
+				<input type="hidden" id="id" name="id" value="${record.id}"/>
 				<table align="center">
 					<tr>
 						<td><font color="red">*</font>学号：</td>
-						<td><input type="text" onblur="formOnblur(this.value);" id="stuCode"  name="stuCode" value=""  style="margin-top:5px;height:30px;" /></td>
+						<td><input type="text" onblur="formOnblur(this.value);" id="stuCode"  name="stuCode" value="${record.user.stuCode}"  style="margin-top:5px;height:30px;" /></td>
 					</tr>
 					<tr>
 						<td><font color="red">*</font>日期：</td>
-	                    <td><input id="date" name="date" value="" style="margin-top:5px;height:30px;" placeholder="缺勤日期" type="text" class="controls input-append date form_date" readonly ></td>
+	                    <td><input id="date" name="date" value="<fmt:formatDate value="${record.date}"  pattern="yyyy-MM-dd"/>" style="margin-top:5px;height:30px;" placeholder="缺勤日期" type="text" class="controls input-append date form_date" readonly ></td>
 					</tr>
 					<tr>
 						<td>备注：</td>
-						<td><input type="text" id="remark"  name="remark" value=""  style="margin-top:5px;height:30px;" /></td>
+						<td><input type="text" id="remark"  name="remark" value="${record.remark}"  style="margin-top:5px;height:30px;" /></td>
 					</tr>
 				</table>
 				<div align="center">
