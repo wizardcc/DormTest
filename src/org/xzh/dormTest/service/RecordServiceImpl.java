@@ -148,5 +148,9 @@ public class RecordServiceImpl implements RecordService {
 		
 		return recordDao.find(sql.toString());
 	}
+	@Override
+	public Record findById(int id) {
+		return recordDao.findById(id);
+	}
 
 }

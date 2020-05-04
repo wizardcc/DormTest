@@ -12,4 +12,6 @@ public interface RecordDao {
 
 	List<Record> find(String sql);
 
+	Record findById(int id);
+
 }

@@ -48,7 +48,8 @@ public class RecordServlet extends HttpServlet {
 		//在tomcat8.0中，如果是post请求，传递过来的中文可能会出现乱码问题 
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
-		System.out.println("action:"+action);
+		String id = request.getParameter("id");
+		System.out.println("action:"+action+" recordId:"+id);
 		
 		//获取当前登录的用户
 		User userCurr = (User) request.getSession().getAttribute("session_user");
@@ -148,6 +149,23 @@ public class RecordServlet extends HttpServlet {
 				request.setAttribute("mainRight", "/WEB-INF/jsp/recordAddOrUpdate.jsp");
 				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
 			}
+		}else if(action != null && action.equals("preUpdate")) {
+			//跳转到修改页面
+			Record record = recordService.findById(Integer.parseInt(id));
+			System.out.println("record:"+record);
+			
+			//查看用户是否有修改考勤记录的权限
+			User user = userService.findStuCodeAndManager(record.getUser().getStuCode(),userCurr);
+			System.out.println("修改权限user ："+user);
+			if(user == null) {
+				//无修改权限
+				response.sendRedirect(getServletContext().getContextPath()+"/record.action?action=list");
+			}else {
+				request.setAttribute("record", record);
+				request.setAttribute("mainRight", "/WEB-INF/jsp/recordAddOrUpdate.jsp");
+				request.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(request, response);
+			}
+			
 		}
 	}
 

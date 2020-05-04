@@ -16,4 +16,6 @@ public interface RecordService {
 	List<Record> findRecords(String startDate, String endDate, String dormBuildId, String searchType, String keyword,
 			User userCurr, PageModel pageModel);
 
+	Record findById(int id);
+
 }

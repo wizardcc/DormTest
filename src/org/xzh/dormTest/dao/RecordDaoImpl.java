@@ -115,4 +115,53 @@ public class RecordDaoImpl implements RecordDao {
 		return null;
 	}
 
+	@Override
+	public Record findById(int id) {
+		//① 获取连接（数据库地址  用户名 密码）
+		Connection  connection = 	ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement =null;
+		try {
+			StringBuffer sql = new StringBuffer("SELECT record.*,record.id recordId,record.disabled recordDisabled,user.* FROM tb_record record" + 
+					" LEFT JOIN tb_user USER ON user.id = record.student_id  " + 
+					" WHERE record.id=?");
+			
+			//③ 获取集装箱或者说是车
+			 preparedStatement = connection.prepareStatement(sql.toString());
+			 //注入参数
+			 preparedStatement.setInt(1, id);
+			
+			//④执行SQL,更新
+			ResultSet rs =  preparedStatement.executeQuery();
+			while (rs.next()) {
+				Record record = new Record();
+				record.setId(rs.getInt("recordId"));
+				record.setStudentId(rs.getInt("student_id"));
+				record.setDate(rs.getTimestamp("date"));
+				record.setRemark(rs.getString("remark"));
+				record.setDisabled(rs.getInt("recordDisabled"));
+				
+				User user = new User();
+				user.setId(rs.getInt("student_id"));
+				user.setCreateUserId(rs.getInt("create_user_id"));
+				user.setDormBuildId(rs.getInt("dormBuildId"));
+				user.setDormCode(rs.getString("dorm_Code"));
+				user.setName(rs.getString("name"));
+				user.setPassWord(rs.getString("passWord"));
+				user.setRoleId(rs.getInt("role_id"));
+				user.setSex(rs.getString("sex"));
+				user.setStuCode(rs.getString("stu_code"));
+				user.setTel(rs.getString("tel"));
+				
+				record.setUser(user);
+				return record;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			ConnectionFactory.close(connection, preparedStatement, null);
+		}
+		return null;
+	}
+
 }
