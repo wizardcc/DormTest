@@ -19,7 +19,31 @@ $(document).ready(function(){
 	
 });
 
-
+//文档加载完成后
+window.onload = function(){
+	//获取用户选中查询的宿舍楼id
+	var dormBuildId = "${dormBuildId}";
+	
+	var dormBuildIdSelect = document.getElementById("dormBuildId");
+	var options = dormBuildIdSelect.options;
+	
+	//遍历所有的option，如果option中的值=用户选中查询的宿舍楼id，则该option被选中
+	$.each(options,function(i,option){
+		$(option).attr("selected",option.value == dormBuildId);
+	})
+	
+	
+	//获取用户选中查询的搜索类型
+	var searchType = "${searchType}";
+	
+	var searchTypeSelect = document.getElementById("searchType");
+	var options = searchTypeSelect.options;
+	
+	//遍历所有的option，如果option中的值=用户选中查询的搜索类型，则该option被选中
+	$.each(options,function(i,option){
+		$(option).attr("selected",option.value == searchType);
+	});
+}
 	
 	function deleteOrAcive(recordId,disabled) {
 		if(confirm("您确定要删除或激活这条记录吗？")) {
@@ -44,12 +68,14 @@ $(document).ready(function(){
 				</c:if>
 				<span class="data_search">
 					<span class="controls input-append date form_date" style="margin-right: 10px" data-date-format="yyyy-mm-dd">
-                    	<input id="startDate" name="startDate" style="width:120px;height: 30px;" placeholder="起始日期" type="text" value="" readonly >
+                    	<input id="startDate" name="startDate" style="width:120px;height: 30px;" placeholder="起始日期" type="text" 
+                    		value="${startDate}" readonly >
                     	<span class="add-on"><i class="icon-remove"></i></span>
 						<span class="add-on"><i class="icon-th"></i></span>
                		</span>
 					<span class="controls input-append date form_date" style="margin-right: 10px" data-date-format="yyyy-mm-dd">
-                    	<input id="endDate" name="endDate" style="width:120px;height: 30px;" placeholder="终止日期" type="text" value="" readonly>
+                    	<input id="endDate" name="endDate" style="width:120px;height: 30px;" placeholder="终止日期" type="text" 
+                    		value="${endDate}" readonly>
                     	<span class="add-on"><i class="icon-remove"></i></span>
 						<span class="add-on"><i class="icon-th"></i></span>
                		</span>
@@ -67,7 +93,7 @@ $(document).ready(function(){
 							<option value="dormCode">宿舍编号</option>
 							<option value="sex">性别</option>
 						</select>
-						&nbsp;<input id="keyword" name="keyword" value="" type="text"  style="width:120px;height: 30px;" class="input-medium search-query" >
+						&nbsp;<input id="keyword" name="keyword" value="${keyword }" type="text"  style="width:120px;height: 30px;" class="input-medium search-query" >
 					
 					
 					&nbsp;<button type="submit" class="btn btn-info" onkeydown="if(event.keyCode==13) myForm.submit()">搜索</button>
