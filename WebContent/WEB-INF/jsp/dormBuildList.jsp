@@ -63,7 +63,7 @@
 							<td>${build.remark}</td>
 							<td>
 								<button class="btn btn-mini btn-info" type="button" onclick="javascript:window.location='dormBuild.action?action=preUpdate&id=${build.id}'">修改</button>&nbsp;
-								<!-- 根据宿舍楼的disabled值来判断要显示删除还是激活 -->>
+								<!-- 根据宿舍楼的disabled值来判断要显示删除还是激活 -->
 								<c:if test="${build.disabled == 0 }">
 									<button class="btn btn-mini btn-danger" type="button" onclick="dormBuildDeleteOrActive(${build.id},1)">删除</button>
 								</c:if>

@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String remember = request.getParameter("remember");
 		//打印测试
-		System.out.println("stuCode:"+stuCode+"    password"+password+"    remember"+remember);
+		System.out.println("stuCode:"+stuCode+"    password:"+password+"    remember:"+remember);
 		
 		UserService userService = new UserServiceImpl();
 		//去查询用户输入的登录名和密码是否正确

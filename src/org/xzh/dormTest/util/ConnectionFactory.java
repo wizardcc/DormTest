@@ -25,14 +25,14 @@ public class ConnectionFactory {
 	}
 	
 	//资源关闭工具方法
-		public static void close(Connection connection,PreparedStatement preparedStatement,ResultSet resultSet) {
-			try {
-				//释放资源，根据先开后放
-				if(resultSet != null)  resultSet.close();
-				if(preparedStatement != null)  preparedStatement.close();
-				if(connection != null)  connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+	public static void close(Connection connection,PreparedStatement preparedStatement,ResultSet resultSet) {
+		try {
+			//释放资源，根据先开后放
+			if(resultSet != null)  resultSet.close();
+			if(preparedStatement != null)  preparedStatement.close();
+			if(connection != null)  connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+	}
 }

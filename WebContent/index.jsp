@@ -88,7 +88,7 @@
           <font id="error" color="red">${error}</font>  
         </label>
         <div style="text-align: center;">
-        <!-- 按钮类型为submit：点击按钮会将表单的内容提交到action属性值login的请求处理类中 -->>
+        <!-- 按钮类型为submit：点击按钮会将表单的内容提交到action属性值login的请求处理类中 -->
         <button class="btn btn-large btn-primary" type="submit">登录</button>
 		 &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
